@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.lianzong.logistics.app.LogisticsApplication;
 import com.lianzong.logistics.app.R;
+import com.lianzong.logistics.app.push.PushDemoActivity;
 import com.lianzong.logistics.app.ui.fragment.ContactFragment;
 import com.lianzong.logistics.app.ui.fragment.GoodsListFragment;
 import com.lianzong.logistics.app.ui.fragment.SettingFragment;
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 //                                        Fragment helpFragment = HelpFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
 //                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, helpFragment).commit();
 //                                        Toast.makeText(MainActivity.this, MainActivity.this.getString(((Nameable) drawerItem).getNameRes()), Toast.LENGTH_SHORT).show();
-                                        Intent i = new Intent("android.intent.action.wsl");
+                                        Intent i = new Intent(MainActivity.this, PushDemoActivity.class);
                                         MainActivity.this.startActivity(i);
                                         break;
                                     case 5: // ???????
