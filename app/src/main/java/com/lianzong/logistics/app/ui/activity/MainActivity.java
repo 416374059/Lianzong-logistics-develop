@@ -1,5 +1,6 @@
 package com.lianzong.logistics.app.ui.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,6 @@ import com.lianzong.logistics.app.LogisticsApplication;
 import com.lianzong.logistics.app.R;
 import com.lianzong.logistics.app.ui.fragment.ContactFragment;
 import com.lianzong.logistics.app.ui.fragment.GoodsListFragment;
-import com.lianzong.logistics.app.ui.fragment.HelpFragment;
 import com.lianzong.logistics.app.ui.fragment.SettingFragment;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -151,22 +151,24 @@ public class MainActivity extends AppCompatActivity {
                                 getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
 
                                 switch (drawerItem.getIdentifier()) {
-                                    case 1: // 货源
+                                    case 1: // ???
                                         Fragment goodsListFragment = GoodsListFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, goodsListFragment).commit();
                                         Toast.makeText(MainActivity.this, MainActivity.this.getString(((Nameable) drawerItem).getNameRes()), Toast.LENGTH_SHORT).show();
                                         break;
-                                    case 3: // 设置
+                                    case 3: // ????
                                         Fragment settingFragment = SettingFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, settingFragment).commit();
                                         Toast.makeText(MainActivity.this, MainActivity.this.getString(((Nameable) drawerItem).getNameRes()), Toast.LENGTH_SHORT).show();
                                         break;
-                                    case 4: // 帮助
-                                        Fragment helpFragment = HelpFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
-                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, helpFragment).commit();
-                                        Toast.makeText(MainActivity.this, MainActivity.this.getString(((Nameable) drawerItem).getNameRes()), Toast.LENGTH_SHORT).show();
+                                    case 4: // ????
+//                                        Fragment helpFragment = HelpFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
+//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, helpFragment).commit();
+//                                        Toast.makeText(MainActivity.this, MainActivity.this.getString(((Nameable) drawerItem).getNameRes()), Toast.LENGTH_SHORT).show();
+                                        Intent i = new Intent("android.intent.action.wsl");
+                                        MainActivity.this.startActivity(i);
                                         break;
-                                    case 5: // 联系我们
+                                    case 5: // ???????
                                         Fragment contactFragment = ContactFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
                                         Toast.makeText(MainActivity.this, MainActivity.this.getString(((Nameable) drawerItem).getNameRes()), Toast.LENGTH_SHORT).show();

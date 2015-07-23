@@ -13,20 +13,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-/**
- * 登录百度账号初始化Channel的Activity
- */
 public class LoginActivity extends Activity {
 
-    /** log tag. */
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     private WebView mWebView;
 
-    /** redirect uri 值为"oob" */
     private static final String REDIRECT = "oob";
 
-    /** 开发中心 */
     static final String DEV_CENTER = "https://openapi.baidu.com/";
 
     @Override
@@ -42,9 +36,6 @@ public class LoginActivity extends Activity {
         getAccessToken();
     }
 
-    /**
-     * 获取 access token的url
-     */
     private void getAccessToken() {
         String url = DEV_CENTER + "oauth/2.0/authorize?"
                 + "response_type=token" + "&client_id="
@@ -56,12 +47,6 @@ public class LoginActivity extends Activity {
         mWebView.loadUrl(url);
     }
 
-    /**
-     * 设置Webview的WebviewClient
-     * 
-     * @param webview
-     *            webview
-     */
     private void initWebView(WebView webview) {
         WebSettings settings = webview.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -88,7 +73,6 @@ public class LoginActivity extends Activity {
                     url = "http://localhost/?"
                             + url.substring(fragmentIndex + 1);
 
-                    // 从URL中获得Access token
                     String accessToken = Uri.parse(url).getQueryParameter(
                             "access_token");
                     Log.d(TAG, ">>> Get Original AccessToken: \r\n"
@@ -98,7 +82,6 @@ public class LoginActivity extends Activity {
                             "get access token success", Toast.LENGTH_SHORT)
                             .show();
 
-                    // ͨ登录
                     Intent intent = new Intent(Utils.ACTION_LOGIN);
                     intent.setClass(LoginActivity.this, PushDemoActivity.class);
                     intent.putExtra(Utils.EXTRA_ACCESS_TOKEN, accessToken);

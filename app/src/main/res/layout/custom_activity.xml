@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <TextView
-        android:text="@string/custom_text_hint"
+        android:text="custom"
         android:id="@+id/text_head"
         android:textStyle="bold"
         android:layout_width="fill_parent"
