@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+//wrap with try and catch so the build is working even if the signing stuff is missing
+try {
+    apply from: '../../../signing.gradle'
+} catch (ex) {
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.lianzong.logistics.app"
+        minSdkVersion 10
+        targetSdkVersion 22
+        versionCode 1
+        versionName "0.0.1"
+
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def file = output.outputFile
+                def fileName = file.name.replace(".apk", "-v" + versionName + "-c" + versionCode + ".apk")
+                output.outputFile = new File(file.parentFile, fileName)
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-DEBUG"
+            try {
+                signingConfig signingConfigs.debug
+            } catch (ex) {
+            }
+            minifyEnabled false
+        }
+        release {
+            try {
+                signingConfig signingConfigs.release
+            } catch (ex) {
+            }
+            zipAlignEnabled true
+            minifyEnabled false
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    compileOptions {
+        encoding "GBK"
+    }
+}
+
+dependencies {
+    compile project(':library')
+    compile('com.mikepenz:aboutlibraries:5.0.7@aar') {
+        transitive = true
+    }
+    compile 'com.mikepenz:octicons-typeface:2.2.0@aar'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile files('libs/pushservice-4.5.1.8.jar')
+}

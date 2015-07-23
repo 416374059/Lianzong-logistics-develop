@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">联纵物流</string>
+
+    <!-- main activity menu -->
+    <string name="action_settings">设置</string>
+
+
+    <!-- search conditions -->
+    <string name="label_search_from">始发地</string>
+    <string name="label_search_to">目的地</string>
+    <string name="label_search_goods_type">货源类型</string>
+    <string name="label_search">搜索</string>
+
+    <!-- Drawer Items -->
+    <string name="drawer_item_goods">货源</string>
+    <string name="drawer_item_settings">设置</string>
+    <string name="drawer_item_help">帮助</string>
+    <string name="drawer_item_contact">联系我们</string>
+</resources>
