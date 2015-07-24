@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.lianzong.logistics.app.LogisticsApplication;
 import com.lianzong.logistics.app.R;
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         new SecondaryDrawerItem().withName(R.string.drawer_item_help).withIcon(FontAwesome.Icon.faw_question).withIdentifier(IDENTIFIER_HELP),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_bullhorn).withIdentifier(IDENTIFIER_CONTACT),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_debug_push).withIcon(FontAwesome.Icon.faw_automobile).withIdentifier(IDENTIFIER_DEBUG_PUSH).setEnabled(LogisticsApplication.sIsVersionDebug),
-                        new SecondaryDrawerItem().withName("Pull Refresh List view").withIcon(FontAwesome.Icon.faw_barcode).withIdentifier(21)
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_debug_xlistview).withIcon(FontAwesome.Icon.faw_barcode).withIdentifier(21)
                 ) // add the items we want to use with our Drawer
                 .withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
@@ -158,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
                         //those items don't contain a drawerItem
 
                         if (drawerItem != null) {
+                            Toast.makeText(MainActivity.this, result.getCurrentSelection() + "", Toast.LENGTH_SHORT).show();
                             if (drawerItem instanceof Nameable) {
                                 getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
                                 switch (drawerItem.getIdentifier()) {
@@ -208,6 +210,8 @@ public class MainActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .withShowDrawerOnFirstLaunch(true)
                 .build();
+        // first goto the goods item
+        result.setSelectionByIdentifier(IDENTIFIER_GOODS);
 
         //only set the active selection or active profile if we do not recreate the activity
         if (savedInstanceState == null) {

@@ -1,5 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_search_conditions"
     android:layout_width="match_parent"
     android:background="@color/colorTextIcon"
     android:paddingLeft="18dp"
@@ -74,7 +76,7 @@
             android:hint="货源类型" />
     </RelativeLayout>
 
-    <TextView
+<!--    <TextView
         android:id="@+id/iv_search"
         android:layout_below="@id/ll_search_goods_type"
         android:background="@color/colorPrimary"
@@ -83,5 +85,13 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:text="@string/label_search"
-        />
+        />-->
+
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:id="@+id/btn_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_search_goods_type"
+        app:rippleSpeed="100"
+        android:text="@string/label_search" />
 </RelativeLayout>

@@ -53,6 +53,7 @@ android {
 
 dependencies {
     compile project(':library')
+    compile project(':MaterialDesign')
     compile('com.mikepenz:aboutlibraries:5.0.7@aar') {
         transitive = true
     }

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <com.markmao.pulltorefresh.widget.XListView
+    <com.lianzong.logistics.app.ui.view.pulltorefresh.XListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

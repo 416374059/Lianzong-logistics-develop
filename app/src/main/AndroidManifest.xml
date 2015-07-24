@@ -30,7 +30,6 @@
             android:value="DEBUG" /><!--DEBUG/RELEASE-->
 
 
-        <!-- android:supportsRtl="true" -->
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
@@ -42,8 +41,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.view.pulltorefresh.XListViewActivity"
+            android:label="@string/drawer_item_debug_xlistview"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus">
+        </activity>
 
-        <!-- Push start-->
+
+
+        <!-- Baidu Yun Push start-->
         <activity
             android:name="com.lianzong.logistics.app.push.PushDemoActivity"
             android:label="@string/app_name"

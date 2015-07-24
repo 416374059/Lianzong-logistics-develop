@@ -17,6 +17,7 @@
     <string name="drawer_item_help">帮助</string>
     <string name="drawer_item_contact">联系我们</string>
     <string name="drawer_item_debug_push">推送功能测试</string>
+    <string name="drawer_item_debug_xlistview">XListView功能测试</string>
 
     <!-- pull to refresh-->
     <string name="btn_scroll_view">ScrollView demo</string>
