@@ -13,14 +13,20 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+/**
+ * ??????????????hannel??ctivity
+ */
 public class LoginActivity extends Activity {
 
+    /** log tag. */
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     private WebView mWebView;
 
+    /** redirect uri ???"oob" */
     private static final String REDIRECT = "oob";
 
+    /** ??????? */
     static final String DEV_CENTER = "https://openapi.baidu.com/";
 
     @Override
@@ -36,17 +42,26 @@ public class LoginActivity extends Activity {
         getAccessToken();
     }
 
+    /**
+     * ??? access token??rl
+     */
     private void getAccessToken() {
         String url = DEV_CENTER + "oauth/2.0/authorize?"
                 + "response_type=token" + "&client_id="
                 + Utils.getMetaValue(LoginActivity.this, "api_key")
                 + "&redirect_uri=" + REDIRECT + "&display=mobile";
 
-        Log.d(TAG, "GetAccessTokenUrl: " + url);
+        Log.e(TAG, "GetAccessTokenUrl: " + url);
 
         mWebView.loadUrl(url);
     }
 
+    /**
+     * ???Webview??ebviewClient
+     * 
+     * @param webview
+     *            webview
+     */
     private void initWebView(WebView webview) {
         WebSettings settings = webview.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -73,15 +88,17 @@ public class LoginActivity extends Activity {
                     url = "http://localhost/?"
                             + url.substring(fragmentIndex + 1);
 
+                    // ??RL?????ccess token
                     String accessToken = Uri.parse(url).getQueryParameter(
                             "access_token");
-                    Log.d(TAG, ">>> Get Original AccessToken: \r\n"
+                    Log.e(TAG, ">>> Get Original AccessToken: \r\n"
                             + accessToken);
 
                     Toast.makeText(LoginActivity.this,
                             "get access token success", Toast.LENGTH_SHORT)
                             .show();
 
+                    // ????
                     Intent intent = new Intent(Utils.ACTION_LOGIN);
                     intent.setClass(LoginActivity.this, PushDemoActivity.class);
                     intent.putExtra(Utils.EXTRA_ACCESS_TOKEN, accessToken);

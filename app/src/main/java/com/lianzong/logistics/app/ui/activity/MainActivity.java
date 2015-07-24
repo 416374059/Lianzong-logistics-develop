@@ -8,14 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.lianzong.logistics.app.LogisticsApplication;
 import com.lianzong.logistics.app.R;
 import com.lianzong.logistics.app.push.PushDemoActivity;
 import com.lianzong.logistics.app.ui.fragment.ContactFragment;
 import com.lianzong.logistics.app.ui.fragment.GoodsListFragment;
+import com.lianzong.logistics.app.ui.fragment.HelpFragment;
 import com.lianzong.logistics.app.ui.fragment.SettingFragment;
+import com.lianzong.logistics.app.ui.view.pulltorefresh.XListViewActivity;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.typeface.FontAwesome;
@@ -35,6 +36,14 @@ import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
 public class MainActivity extends AppCompatActivity {
     private static final int PROFILE_SETTING = 1;
+
+    // drawer item Identifier ID
+    private static final int IDENTIFIER_GOODS = 1;
+    private static final int IDENTIFIER_SETTING = 2;
+    private static final int IDENTIFIER_HELP = 3;
+    private static final int IDENTIFIER_CONTACT = 4;
+    // debug item
+    private static final int IDENTIFIER_DEBUG_PUSH = 20;
 
     //save our header or result
     private AccountHeader headerResult = null;
@@ -115,12 +124,13 @@ public class MainActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_goods).withIcon(FontAwesome.Icon.faw_home).withBadge("99").withIdentifier(1),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_goods).withIcon(FontAwesome.Icon.faw_home).withBadge("99").withIdentifier(IDENTIFIER_GOODS),
                         new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_help).withIcon(FontAwesome.Icon.faw_question),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_bullhorn)
-
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog).withIdentifier(IDENTIFIER_SETTING),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_help).withIcon(FontAwesome.Icon.faw_question).withIdentifier(IDENTIFIER_HELP),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_bullhorn).withIdentifier(IDENTIFIER_CONTACT),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_debug_push).withIcon(FontAwesome.Icon.faw_automobile).withIdentifier(IDENTIFIER_DEBUG_PUSH).setEnabled(LogisticsApplication.sIsVersionDebug),
+                        new SecondaryDrawerItem().withName("Pull Refresh List view").withIcon(FontAwesome.Icon.faw_barcode).withIdentifier(21)
                 ) // add the items we want to use with our Drawer
                 .withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
@@ -150,29 +160,30 @@ public class MainActivity extends AppCompatActivity {
                         if (drawerItem != null) {
                             if (drawerItem instanceof Nameable) {
                                 getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
-
                                 switch (drawerItem.getIdentifier()) {
-                                    case 1: // ???
+                                    case IDENTIFIER_GOODS:
                                         Fragment goodsListFragment = GoodsListFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, goodsListFragment).commit();
-                                        Toast.makeText(MainActivity.this, MainActivity.this.getString(((Nameable) drawerItem).getNameRes()), Toast.LENGTH_SHORT).show();
                                         break;
-                                    case 3: // ????
+                                    case IDENTIFIER_SETTING:
                                         Fragment settingFragment = SettingFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, settingFragment).commit();
-                                        Toast.makeText(MainActivity.this, MainActivity.this.getString(((Nameable) drawerItem).getNameRes()), Toast.LENGTH_SHORT).show();
                                         break;
-                                    case 4: // ????
-//                                        Fragment helpFragment = HelpFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
-//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, helpFragment).commit();
-//                                        Toast.makeText(MainActivity.this, MainActivity.this.getString(((Nameable) drawerItem).getNameRes()), Toast.LENGTH_SHORT).show();
-                                        Intent i = new Intent(MainActivity.this, PushDemoActivity.class);
-                                        MainActivity.this.startActivity(i);
+                                    case IDENTIFIER_HELP:
+                                        Fragment helpFragment = HelpFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, helpFragment).commit();
                                         break;
-                                    case 5: // ???????
+                                    case IDENTIFIER_CONTACT:
                                         Fragment contactFragment = ContactFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
-                                        Toast.makeText(MainActivity.this, MainActivity.this.getString(((Nameable) drawerItem).getNameRes()), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case IDENTIFIER_DEBUG_PUSH:
+                                        Intent pushDemoActivity = new Intent(MainActivity.this, PushDemoActivity.class);
+                                        MainActivity.this.startActivity(pushDemoActivity);
+                                        break;
+                                    case 21:
+                                        Intent xlistviewDemoActivity = new Intent(MainActivity.this, XListViewActivity.class);
+                                        MainActivity.this.startActivity(xlistviewDemoActivity);
                                         break;
                                     default:
                                         break;

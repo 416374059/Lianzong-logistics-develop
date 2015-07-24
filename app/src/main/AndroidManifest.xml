@@ -21,6 +21,15 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name">
+        <!-- config -->
+        <meta-data
+            android:name="cfg_enable_account"
+            android:value="TRUE" /><!--TRUE/FALSE-->
+        <meta-data
+            android:name="cfg_version"
+            android:value="DEBUG" /><!--DEBUG/RELEASE-->
+
+
         <!-- android:supportsRtl="true" -->
         <activity
             android:name=".ui.activity.MainActivity"
@@ -33,9 +42,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data
-            android:name="cfg_enable_account"
-            android:value="false" />
 
         <!-- Push start-->
         <activity
@@ -130,11 +136,10 @@
             android:exported="true" />
         <!-- push结束 -->
 
-
         <!-- 在百度开发者中心查询应用的API Key -->
         <meta-data
             android:name="api_key"
-            android:value="TwoERvK6znovdLGMAFYma7LP" />
+            android:value="pnLVGRWxwSysboGN5qFLToI3" />
     </application>
 
 </manifest>

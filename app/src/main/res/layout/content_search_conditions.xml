@@ -84,10 +84,4 @@
         android:textColor="@android:color/white"
         android:text="@string/label_search"
         />
-
-    <View android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/colorDivider"
-        android:layout_marginTop="4dp"
-        android:layout_below="@id/iv_search" />
 </RelativeLayout>

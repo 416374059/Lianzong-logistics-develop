@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso;
 public class LogisticsApplication extends Application {
 
     public static boolean sIsSuportAccount = false;
+    public static String sVersionType;
+    public static boolean sIsVersionDebug;
 
     @Override
     public void onCreate() {
@@ -26,6 +28,7 @@ public class LogisticsApplication extends Application {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder) {
                 Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+
             }
 
             @Override
@@ -63,5 +66,7 @@ public class LogisticsApplication extends Application {
 
     private void loadConfigs() {
         sIsSuportAccount = TextUtils.equals("TRUE", SystemUtils.getMetaValue(this, "cfg_enable_account"));
+        sVersionType = SystemUtils.getMetaValue(this, "cfg_version");
+        sIsVersionDebug = TextUtils.equals("DEBUG", sVersionType);
     }
 }
