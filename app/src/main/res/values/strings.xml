@@ -13,11 +13,16 @@
 
     <!-- Drawer Items -->
     <string name="drawer_item_goods">货源</string>
+    <string name="drawer_item_my_vehicles">车辆管理</string>
     <string name="drawer_item_settings">设置</string>
     <string name="drawer_item_help">帮助</string>
     <string name="drawer_item_contact">联系我们</string>
     <string name="drawer_item_debug_push">推送功能测试</string>
     <string name="drawer_item_debug_xlistview">XListView功能测试</string>
+    <string name="drawer_item_debug_fab">Floating Action Button功能测试</string>
+
+    <!-- Buttons -->
+    <string name="btn_publish_vehicle">发布车辆</string>
 
     <!-- pull to refresh-->
     <string name="btn_scroll_view">ScrollView demo</string>
@@ -28,6 +33,13 @@
     <string name="header_hint_refresh_time">Time：</string>
     <string name="footer_hint_load_normal">Load more</string>
     <string name="footer_hint_load_ready">Release to load more</string>
+
+    <!-- test fro floating action widget-->
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur magna tortor, semper eu feugiat eu, vehicula vitae lacus.</string>
+    <string name="recyclerview_fab_example">RecyclerView FAB example</string>
+    <string name="floating_action_menu">Floating Action Menu</string>
+    <string name="lorem_ipsum_large">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed ultricies risus. Integer nisi orci, lacinia sit amet mi in, mollis scelerisque purus. Nunc risus ligula, maximus eu orci a, facilisis dictum velit. Proin nec laoreet magna. Nulla ut sagittis lorem. Morbi id enim fermentum, semper diam et, tempus leo. Aliquam vel congue orci. Suspendisse potenti. Curabitur finibus diam augue, vel bibendum sapien ultrices non.</string>
+
 
     <!--百度云推送-->
     <string name="login">登录</string>

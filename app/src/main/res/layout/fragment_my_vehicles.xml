@@ -1,0 +1,12 @@
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorTextIcon"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.lianzong.logistics.app.ui.view.pulltorefresh.XListView
+        android:id="@+id/lv_my_vehicles"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#00000000"/>
+</RelativeLayout>

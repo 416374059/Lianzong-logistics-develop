@@ -3,9 +3,14 @@
     <dimen name="label_width">70dp</dimen>
 
 
-    <!-- Pull to refresh list view-->
+    <!-- pull to refresh list view-->
     <dimen name="header_height">60dp</dimen>
     <dimen name="footer_height">90dp</dimen>
     <dimen name="footer_padding">10dp</dimen>
+
+    <!-- floating action button/menu -->
+    <dimen name="fab_size_normal">56dp</dimen>
+    <dimen name="fab_size_mini">40dp</dimen>
+    <dimen name="labels_text_size">14sp</dimen>
 
 </resources>

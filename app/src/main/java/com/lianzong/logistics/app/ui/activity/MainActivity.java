@@ -16,7 +16,9 @@ import com.lianzong.logistics.app.push.PushDemoActivity;
 import com.lianzong.logistics.app.ui.fragment.ContactFragment;
 import com.lianzong.logistics.app.ui.fragment.GoodsListFragment;
 import com.lianzong.logistics.app.ui.fragment.HelpFragment;
+import com.lianzong.logistics.app.ui.fragment.MyVehiclesListFragment;
 import com.lianzong.logistics.app.ui.fragment.SettingFragment;
+import com.lianzong.logistics.app.ui.view.fab.FBMainActivity;
 import com.lianzong.logistics.app.ui.view.pulltorefresh.XListViewActivity;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -39,12 +41,17 @@ public class MainActivity extends AppCompatActivity {
     private static final int PROFILE_SETTING = 1;
 
     // drawer item Identifier ID
+    // app function item
     private static final int IDENTIFIER_GOODS = 1;
-    private static final int IDENTIFIER_SETTING = 2;
-    private static final int IDENTIFIER_HELP = 3;
-    private static final int IDENTIFIER_CONTACT = 4;
+    private static final int IDENTIFIER_MY_VEHICLES = IDENTIFIER_GOODS + 1;
+    // settings item
+    private static final int IDENTIFIER_SETTING = 50;
+    private static final int IDENTIFIER_HELP = IDENTIFIER_SETTING + 1;
+    private static final int IDENTIFIER_CONTACT = IDENTIFIER_SETTING + 2;
     // debug item
-    private static final int IDENTIFIER_DEBUG_PUSH = 20;
+    private static final int IDENTIFIER_DEBUG_PUSH = 100;
+    private static final int IDENTIFIER_DEBUG_XLIST_VIEW = IDENTIFIER_DEBUG_PUSH + 1;
+    private static final int IDENTIFIER_DEBUG_FLOAGION_ACTION_WIDGETS = IDENTIFIER_DEBUG_PUSH + 2;
 
     //save our header or result
     private AccountHeader headerResult = null;
@@ -125,13 +132,15 @@ public class MainActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_goods).withIcon(FontAwesome.Icon.faw_home).withBadge("99").withIdentifier(IDENTIFIER_GOODS),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_goods).withIcon(FontAwesome.Icon.faw_cubes).withBadge("99").withIdentifier(IDENTIFIER_GOODS),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_my_vehicles).withIcon(FontAwesome.Icon.faw_truck).withBadge("9").withIdentifier(IDENTIFIER_MY_VEHICLES),
                         new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog).withIdentifier(IDENTIFIER_SETTING),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cogs).withIdentifier(IDENTIFIER_SETTING),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_help).withIcon(FontAwesome.Icon.faw_question).withIdentifier(IDENTIFIER_HELP),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_bullhorn).withIdentifier(IDENTIFIER_CONTACT),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_phone).withIdentifier(IDENTIFIER_CONTACT),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_debug_push).withIcon(FontAwesome.Icon.faw_automobile).withIdentifier(IDENTIFIER_DEBUG_PUSH).setEnabled(LogisticsApplication.sIsVersionDebug),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_debug_xlistview).withIcon(FontAwesome.Icon.faw_barcode).withIdentifier(21)
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_debug_xlistview).withIcon(FontAwesome.Icon.faw_barcode).withIdentifier(IDENTIFIER_DEBUG_XLIST_VIEW),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_debug_fab).withIcon(FontAwesome.Icon.faw_apple).withIdentifier(IDENTIFIER_DEBUG_FLOAGION_ACTION_WIDGETS)
                 ) // add the items we want to use with our Drawer
                 .withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
@@ -159,13 +168,16 @@ public class MainActivity extends AppCompatActivity {
                         //those items don't contain a drawerItem
 
                         if (drawerItem != null) {
-                            Toast.makeText(MainActivity.this, result.getCurrentSelection() + "", Toast.LENGTH_SHORT).show();
                             if (drawerItem instanceof Nameable) {
                                 getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
                                 switch (drawerItem.getIdentifier()) {
                                     case IDENTIFIER_GOODS:
                                         Fragment goodsListFragment = GoodsListFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, goodsListFragment).commit();
+                                        break;
+                                    case IDENTIFIER_MY_VEHICLES:
+                                        Fragment myVehiclesListFragment = MyVehiclesListFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myVehiclesListFragment).commit();
                                         break;
                                     case IDENTIFIER_SETTING:
                                         Fragment settingFragment = SettingFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
@@ -183,9 +195,13 @@ public class MainActivity extends AppCompatActivity {
                                         Intent pushDemoActivity = new Intent(MainActivity.this, PushDemoActivity.class);
                                         MainActivity.this.startActivity(pushDemoActivity);
                                         break;
-                                    case 21:
+                                    case IDENTIFIER_DEBUG_XLIST_VIEW:
                                         Intent xlistviewDemoActivity = new Intent(MainActivity.this, XListViewActivity.class);
                                         MainActivity.this.startActivity(xlistviewDemoActivity);
+                                        break;
+                                    case IDENTIFIER_DEBUG_FLOAGION_ACTION_WIDGETS:
+                                        Intent fBMainActivity = new Intent(MainActivity.this, FBMainActivity.class);
+                                        MainActivity.this.startActivity(fBMainActivity);
                                         break;
                                     default:
                                         break;
