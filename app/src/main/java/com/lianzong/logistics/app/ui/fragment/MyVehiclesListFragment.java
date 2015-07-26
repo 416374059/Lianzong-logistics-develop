@@ -64,7 +64,7 @@ public class MyVehiclesListFragment extends Fragment implements XListView.IXList
     private void initView() {
         mHandler = new Handler();
 
-        mListView = (XListView) getView().findViewById(R.id.lv_goods);
+        mListView = (XListView) getView().findViewById(R.id.lv_my_vehicles);
         mListView.setPullRefreshEnable(true);
         mListView.setPullLoadEnable(true);
         mListView.setAutoLoadEnable(true);

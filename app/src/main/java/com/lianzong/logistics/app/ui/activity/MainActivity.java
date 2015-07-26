@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.lianzong.logistics.app.LogisticsApplication;
 import com.lianzong.logistics.app.R;
@@ -16,8 +14,9 @@ import com.lianzong.logistics.app.push.PushDemoActivity;
 import com.lianzong.logistics.app.ui.fragment.ContactFragment;
 import com.lianzong.logistics.app.ui.fragment.GoodsListFragment;
 import com.lianzong.logistics.app.ui.fragment.HelpFragment;
-import com.lianzong.logistics.app.ui.fragment.MyVehiclesListFragment;
 import com.lianzong.logistics.app.ui.fragment.SettingFragment;
+import com.lianzong.logistics.app.ui.view.observableviews.fragment.FlexibleSpaceWithImageFragment;
+import com.lianzong.logistics.app.ui.view.observableviews.fragment.ViewPagerTabFragmentParentFragment;
 import com.lianzong.logistics.app.ui.view.fab.FBMainActivity;
 import com.lianzong.logistics.app.ui.view.pulltorefresh.XListViewActivity;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -37,7 +36,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private static final int PROFILE_SETTING = 1;
 
     // drawer item Identifier ID
@@ -176,7 +175,10 @@ public class MainActivity extends AppCompatActivity {
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, goodsListFragment).commit();
                                         break;
                                     case IDENTIFIER_MY_VEHICLES:
-                                        Fragment myVehiclesListFragment = MyVehiclesListFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
+                                        // ViewPagerTabFragmentParentFragment
+//                                        Fragment myVehiclesListFragment = MyVehiclesListFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
+//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myVehiclesListFragment).commit();
+                                        Fragment myVehiclesListFragment = ViewPagerTabFragmentParentFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myVehiclesListFragment).commit();
                                         break;
                                     case IDENTIFIER_SETTING:
@@ -184,7 +186,9 @@ public class MainActivity extends AppCompatActivity {
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, settingFragment).commit();
                                         break;
                                     case IDENTIFIER_HELP:
-                                        Fragment helpFragment = HelpFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
+//                                        Fragment helpFragment = HelpFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
+//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, helpFragment).commit();
+                                        Fragment helpFragment = FlexibleSpaceWithImageFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, helpFragment).commit();
                                         break;
                                     case IDENTIFIER_CONTACT:

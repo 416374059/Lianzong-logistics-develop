@@ -6,7 +6,7 @@
     <color name="colorPrimaryLight">#BBDEFB</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="window_background">#F9F9F9</color>
+    <color name="window_background">#F9F9F9</color>w
     <color name="drawer_background">#F9F9F9</color>
     <!-- Material DEFAULT text / items colors -->
     <color name="icons">#FFF</color>

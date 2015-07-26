@@ -13,4 +13,11 @@
     <dimen name="fab_size_mini">40dp</dimen>
     <dimen name="labels_text_size">14sp</dimen>
 
+    <!-- observable views-->
+    <dimen name="tab_height">48dp</dimen>
+    <dimen name="flexible_space_height">72dp</dimen>
+    <dimen name="flexible_space_image_height">240dp</dimen>
+    <dimen name="flexible_space_show_fab_offset">120dp</dimen>
+
+    <dimen name="margin_standard">16dp</dimen>
 </resources>

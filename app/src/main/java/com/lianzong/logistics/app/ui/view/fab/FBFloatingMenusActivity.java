@@ -38,7 +38,7 @@ public class FBFloatingMenusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fb_floating_menus_activity);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FloatingActionMenu menu1 = (FloatingActionMenu) findViewById(R.id.menu1);
         final FloatingActionMenu menu2 = (FloatingActionMenu) findViewById(R.id.menu2);

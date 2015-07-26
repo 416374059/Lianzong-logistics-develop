@@ -7,11 +7,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.lianzong.logistics.app.R;
+import com.lianzong.logistics.app.ui.view.fab.FloatingActionButton;
+import com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu;
 import com.lianzong.logistics.app.ui.view.pulltorefresh.XListView;
 
 import java.text.SimpleDateFormat;
@@ -26,10 +30,14 @@ public class GoodsListFragment extends Fragment implements XListView.IXListViewL
     private RelativeLayout mRlSearchConditions;
     private ButtonRectangle mRectButton;
     private XListView mListView;
+    private FloatingActionMenu mMenusGoods;
+    private FloatingActionButton mFbAddVehicle, mFbSearchGoods;
+
     private ArrayAdapter<String> mAdapter;
     private ArrayList<String> items = new ArrayList<String>();
     private int mIndex = 0;
     private int mRefreshIndex = 0;
+    private int mPreviousVisibleItem = 0;
 
     private Handler mHandler;
 
@@ -59,13 +67,32 @@ public class GoodsListFragment extends Fragment implements XListView.IXListViewL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mHandler = new Handler();
         geneItems();
+
+        initFloatingMenus();
         initView();
     }
 
-    private void initView() {
-        mHandler = new Handler();
+    private void initFloatingMenus() {
+        mMenusGoods = (FloatingActionMenu) getView().findViewById(R.id.fb_menus_goods);
+        mMenusGoods.setClosedOnTouchOutside(true);
+        mMenusGoods.hideMenuButton(false);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mMenusGoods.showMenuButton(true);
+            }
+        }, 400);
 
+//        mFbAddVehicle = (FloatingActionButton) getView().findViewById(R.id.fb_add_a_vehicle);
+//        mFbAddVehicle.setOnClickListener(this);
+//
+//        mFbSearchGoods = (FloatingActionButton) getView().findViewById(R.id.fb_search_goods);
+//        mFbSearchGoods.setOnClickListener(this);
+    }
+
+    private void initView() {
         mRlSearchConditions = (RelativeLayout) getView().findViewById(R.id.rl_search_conditions);
         // set animations to search conditions layout
 
@@ -82,6 +109,24 @@ public class GoodsListFragment extends Fragment implements XListView.IXListViewL
 
         mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.vw_list_item, items);
         mListView.setAdapter(mAdapter);
+
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:// 滑动停止
+                        mMenusGoods.showMenuButton(true);
+                        break;
+                    default:
+                        mMenusGoods.hideMenuButton(true);
+                        break;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
+        });
     }
 
     @Override
@@ -134,17 +179,29 @@ public class GoodsListFragment extends Fragment implements XListView.IXListViewL
             case R.id.btn_search:
                 onGoodsSearching();
                 break;
+//            case R.id.fb_add_a_vehicle:
+//                actionAddVehicle();
+//                break;
+//            case R.id.fb_search_goods:
+//                actionSearchGoods();
+//                break;
             default:
                 break;
         }
+    }
+
+    private void actionAddVehicle() {
+        Toast.makeText(getActivity(), "Add a Vehicle", Toast.LENGTH_LONG).show();
+    }
+
+    private void actionSearchGoods() {
+        Toast.makeText(getActivity(), "Search Goods", Toast.LENGTH_LONG).show();
     }
 
     /**
      * search goods by some conditions
      */
     private void onGoodsSearching() {
-
-
         // wait for show the list view
         if (null != mRlSearchConditions) {
             mRlSearchConditions.setVisibility(View.GONE);

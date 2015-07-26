@@ -11,6 +11,7 @@
     <color name="colorSecondaryText">#727272</color>
     <color name="colorDivider">#B6B6B6</color>
     <color name="colorTextIcon">#FFFFFF</color>
+
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorPrimaryLight">#C5CAE9</color>
@@ -19,12 +20,9 @@
     <color name="material_drawer_selected_text">#536EEA</color>
     <color name="material_drawer_dark_selected_text">#536EEA</color>
 
-
-
     <color name="colorNormal">#DA4336</color>
     <color name="colorPressed">#E75043</color>
     <color name="colorRipple">#99FFFFFF</color>
-
 
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>

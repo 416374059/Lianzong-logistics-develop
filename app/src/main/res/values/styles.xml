@@ -29,7 +29,10 @@
 
 
 
-    <!-- test fro fab begin -->
+    <!-- fab begin -->
+    <!-- fab end -->
+
+    <!-- test for fab begin -->
     <style name="MenuLabelsStyle">
         <item name="android:background">@drawable/fab_label_background</item>
         <item name="android:textColor">#FFFFFF</item>
@@ -60,5 +63,5 @@
         <item name="fab_colorPressed">#2E7D32</item>
         <item name="fab_colorRipple">#1B5E20</item>
     </style>
-    <!-- test fro fab end -->
+    <!-- test for fab end -->
 </resources>
