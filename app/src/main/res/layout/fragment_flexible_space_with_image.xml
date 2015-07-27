@@ -14,54 +14,37 @@
   limitations under the License.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/image"
+    <com.lianzong.logistics.app.ui.view.observableviews.FlexibleSpaceContainerLayout
+        android:id="@+id/flexible_space_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/flexible_space_image_height"
-        android:scaleType="centerCrop"
-        android:src="@drawable/example" />
+        android:layout_height="@dimen/flexible_space_image_height">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/example" />
+
+    </com.lianzong.logistics.app.ui.view.observableviews.FlexibleSpaceContainerLayout>
 
     <View
         android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="@dimen/flexible_space_image_height"
+        android:alpha="0"
         android:background="?attr/colorPrimary" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingEnd="@dimen/margin_standard"
-        android:paddingLeft="@dimen/margin_standard"
-        android:paddingStart="@dimen/margin_standard">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:minHeight="?attr/actionBarSize"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/flexible_space_image_height"
-            android:background="@android:color/transparent" />
-    </LinearLayout>
 
     <com.lianzong.logistics.app.ui.view.observableviews.ObservableScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:scrollbars="none">
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -73,6 +56,7 @@
                 android:layout_height="@dimen/flexible_space_image_height"
                 android:background="@android:color/transparent" />
 
+            <!-- scroll container -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,12 +67,37 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:text="@string/lipsum" />
         </LinearLayout>
+
     </com.lianzong.logistics.app.ui.view.observableviews.ObservableScrollView>
 
 
-    <com.lianzong.logistics.app.ui.view.observableviews.SlidingTabLayout
-        android:id="@+id/sliding_tabs"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_height"
-        android:background="@android:color/transparent" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/flexible_space_image_fab_margin_top"
+            android:background="@android:color/transparent" />
+
+        <com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu
+            android:id="@+id/fb_menus_down"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_standard"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            fab:menu_fab_size="mini"
+            fab:menu_labels_ellipsize="end"
+            fab:menu_labels_singleLine="true"
+            fab:menu_openDirection="down">
+
+            <!--在code中动态添加 fab buttons-->
+        </com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu>
+    </LinearLayout>
+
 </FrameLayout>

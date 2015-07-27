@@ -75,7 +75,7 @@ public class GoodsListFragment extends Fragment implements XListView.IXListViewL
     }
 
     private void initFloatingMenus() {
-        mMenusGoods = (FloatingActionMenu) getView().findViewById(R.id.fb_menus_goods);
+        mMenusGoods = (FloatingActionMenu) getView().findViewById(R.id.fb_menus);
         mMenusGoods.setClosedOnTouchOutside(true);
         mMenusGoods.hideMenuButton(false);
         mHandler.postDelayed(new Runnable() {

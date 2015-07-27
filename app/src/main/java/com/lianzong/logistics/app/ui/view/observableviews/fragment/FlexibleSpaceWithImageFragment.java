@@ -1,50 +1,34 @@
-/*
- * Copyright 2014 Soichiro Kashima
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.lianzong.logistics.app.ui.view.observableviews.fragment;
 
-import android.annotation.TargetApi;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import com.lianzong.logistics.app.R;
 import com.lianzong.logistics.app.ui.fragment.BaseFragment;
+import com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu;
+import com.lianzong.logistics.app.ui.view.observableviews.FlexibleSpaceContainerLayout;
 import com.lianzong.logistics.app.ui.view.observableviews.ObservableScrollView;
 import com.lianzong.logistics.app.ui.view.observableviews.ObservableScrollViewCallbacks;
 import com.lianzong.logistics.app.ui.view.observableviews.ScrollState;
 import com.lianzong.logistics.app.ui.view.observableviews.ScrollUtils;
-import com.lianzong.logistics.app.ui.view.observableviews.Scrollable;
 import com.nineoldandroids.view.ViewHelper;
 
 
-/**
- * Fragment for ViewPagerTabFragmentActivity.
- * ScrollView callbacks are handled by its parent fragment, not its parent activity.
- */
 public class FlexibleSpaceWithImageFragment extends BaseFragment implements ObservableScrollViewCallbacks{
 
     protected static final float MAX_TEXT_SCALE_DELTA = 0.3f;
 
-    private int mFlexibleSpaceHeight;
-    private int mTabHeight;
+    private ObservableScrollView mScrollView;
+    private FloatingActionMenu mFab;
+    private FlexibleSpaceContainerLayout mFlexibleSpaceContainerView;
+    private View mOverlayView;
+
+    private boolean mFabIsShown;
 
     public FlexibleSpaceWithImageFragment() {
         // Required empty public constructor
@@ -58,8 +42,17 @@ public class FlexibleSpaceWithImageFragment extends BaseFragment implements Obse
         args.putString(KEY_TITLE, title);
         f.setArguments(args);
 
+
+        Log.i("wsl", "FlexibleSpaceWithImageFragment created.");
         return (f);
     }
+
+    public void setScrollViewScrollBarShown(boolean shown) {
+        if (null != mScrollView) {
+            mScrollView.setOverScrollMode(shown ? View.OVER_SCROLL_IF_CONTENT_SCROLLS : View.OVER_SCROLL_NEVER);
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,52 +63,44 @@ public class FlexibleSpaceWithImageFragment extends BaseFragment implements Obse
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mFlexibleSpaceHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
-        mTabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
+        initViews(view);
 
-        TextView titleView = (TextView) view.findViewById(R.id.title);
-        titleView.setText(R.string.text_about);
+        ScrollUtils.addOnGlobalLayoutListener(mScrollView, new Runnable() {
+            @Override
+            public void run() {
+//                mScrollView.scrollTo(0, mFlexibleSpaceHeight - mActionBarSize);
+
+                // If you'd like to start from scrollY == 0, don't write like this:
+                //mScrollView.scrollTo(0, 0);
+                // The initial scrollY is 0, so it won't invoke onScrollChanged().
+                // To do this, use the following:
+                //onScrollChanged(0, false, false);
+
+                // You can also achieve it with the following codes.
+                // This causes scroll change from 1 to 0.
+//                mScrollView.scrollTo(0, 1);
+//                mScrollView.scrollTo(0, 0);
+            }
+        });
+
     }
 
-    private void translateTab(int scrollY, boolean animated) {
-        int flexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
-        int tabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
-        View imageView = getView().findViewById(R.id.image);
-        View overlayView = getView().findViewById(R.id.overlay);
-        TextView titleView = (TextView) getView().findViewById(R.id.title);
+    private void initViews(View view) {
+        mScrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
+        setScrollViewScrollBarShown(false);
+        mScrollView.setScrollViewCallbacks(this);
 
-        // Translate overlay and image
-        float flexibleRange = flexibleSpaceImageHeight - getActionBarSize();
-        int minOverlayTransitionY = tabHeight - overlayView.getHeight();
-        ViewHelper.setTranslationY(overlayView, ScrollUtils.getFloat(-scrollY, minOverlayTransitionY, 0));
-        ViewHelper.setTranslationY(imageView, ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
+        mFab = (FloatingActionMenu) view.findViewById(R.id.fb_menus_down);
+        mFab.hideMenuButton(false);
+        mFab.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mFab.showMenuButton(true);
+            }
+        }, 400);
 
-        // Change alpha of overlay
-        ViewHelper.setAlpha(overlayView, ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
-
-        // Scale title text
-        float scale = 1 + ScrollUtils.getFloat((flexibleRange - scrollY - tabHeight) / flexibleRange, 0, MAX_TEXT_SCALE_DELTA);
-        setPivotXToTitle(titleView);
-        ViewHelper.setPivotY(titleView, 0);
-        ViewHelper.setScaleX(titleView, scale);
-        ViewHelper.setScaleY(titleView, scale);
-
-        // Translate title text
-        int maxTitleTranslationY = flexibleSpaceImageHeight - tabHeight - getActionBarSize();
-        int titleTranslationY = maxTitleTranslationY - scrollY;
-        ViewHelper.setTranslationY(titleView, titleTranslationY);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void setPivotXToTitle(View view) {
-        final TextView mTitleView = (TextView) view.findViewById(R.id.title);
-        Configuration config = getResources().getConfiguration();
-        if (Build.VERSION_CODES.JELLY_BEAN_MR1 <= Build.VERSION.SDK_INT
-                && config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-            ViewHelper.setPivotX(mTitleView, view.findViewById(android.R.id.content).getWidth());
-        } else {
-            ViewHelper.setPivotX(mTitleView, 0);
-        }
+        mFlexibleSpaceContainerView = (FlexibleSpaceContainerLayout) view.findViewById(R.id.flexible_space_container);
+        mOverlayView = view.findViewById(R.id.overlay);
     }
 
     @Override
@@ -124,7 +109,7 @@ public class FlexibleSpaceWithImageFragment extends BaseFragment implements Obse
             return;
         }
 
-        updateFlexibleSpace(scrollY, getView());
+        updateFlexibleSpace(scrollY);
     }
 
     @Override
@@ -137,23 +122,100 @@ public class FlexibleSpaceWithImageFragment extends BaseFragment implements Obse
         // We don't use this callback in this pattern.
     }
 
-    private void updateFlexibleSpace(int scrollY, View view) {
-
-        Scrollable s = getView() == null ? null : (Scrollable)view.findViewById(R.id.scroll);
-        s.scrollVerticallyTo(scrollY);
-
-        ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
-        onScrollChanged(scrollY, scrollView);
-    }
-
-    private void onScrollChanged(int scrollY, Scrollable s) {
-        Scrollable scrollable = (Scrollable) getView().findViewById(R.id.scroll);
-        if (scrollable == null) {
+    private void updateFlexibleSpace(int scrollY) {
+        if (null == mScrollView) {
             return;
         }
-        if (scrollable == s) {
-            int adjustedScrollY = Math.min(scrollY, mFlexibleSpaceHeight - mTabHeight);
-            translateTab(adjustedScrollY, false);
+
+        mScrollView.scrollVerticallyTo(scrollY);
+        doScrollChanged(scrollY);
+    }
+
+    private void doScrollChanged(int scrollY) {
+        if (null == mScrollView) {
+            return;
+        }
+
+        translateTab(Math.min(scrollY, mFlexibleSpaceHeight - mTabHeight));
+    }
+
+    private void translateTab(int scrollY) {
+        // Translate overlay
+        int minOverlayTransitionY = mActionBarSize - mOverlayView.getHeight();
+        ViewHelper.setTranslationY(mOverlayView, ScrollUtils.getFloat(-scrollY, minOverlayTransitionY, 0));
+        // Change alpha of overlay
+        ViewHelper.setAlpha(mOverlayView, ScrollUtils.getFloat((float) scrollY / mFlexibleRange, 0, 1));
+
+        // flexible space container
+        ViewHelper.setTranslationY(mFlexibleSpaceContainerView, ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
+
+//        // Scale title text
+//        float scale = 1 + ScrollUtils.getFloat((mFlexibleRange - scrollY) / mFlexibleRange, 0, MAX_TEXT_SCALE_DELTA);
+//        ViewHelper.setPivotX(mTitleView, 0);
+//        ViewHelper.setPivotY(mTitleView, 0);
+//        ViewHelper.setScaleX(mTitleView, scale);
+//        ViewHelper.setScaleY(mTitleView, scale);
+
+//        // Translate title text
+//        int maxTitleTranslationY = (int) (mFlexibleSpaceHeight - mTitleView.getHeight() * scale);
+//        int titleTranslationY = maxTitleTranslationY - scrollY;
+//        ViewHelper.setTranslationY(mTitleView, titleTranslationY);
+
+        // Translate FAB
+        final int maxFabTranslationY = mFlexibleSpaceShowFabOffset;
+        Log.i("wsl", "maxFabTranslationY = " + maxFabTranslationY );
+//        float fabTranslationY = ScrollUtils.getFloat(
+//                -scrollY + mFlexibleSpaceHeight - mFab.getHeight() / 2,
+//                mActionBarSize - mFab.getHeight() / 2,
+//                maxFabTranslationY);
+        float fabTranslationY = -scrollY;
+        Log.i("wsl", "fabTranslationY = " + fabTranslationY );
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            // On pre-honeycomb, ViewHelper.setTranslationX/Y does not set margin,
+            // which causes FAB's OnClickListener not working.
+            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mFab.getLayoutParams();
+            lp.leftMargin = mOverlayView.getWidth() - mFabMargin - mFab.getWidth();
+            lp.topMargin = (int) fabTranslationY;
+            mFab.requestLayout();
+        } else {
+//            ViewHelper.setTranslationX(mFab, mOverlayView.getWidth() - mFabMargin - mFab.getWidth());
+            ViewHelper.setTranslationY(mFab, fabTranslationY);
+        }
+
+        // Show/hide FAB
+        if (fabTranslationY < - mFlexibleSpaceShowFabOffset) {
+            hideFab();
+        } else {
+            showFab();
+        }
+    }
+
+//    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+//    private void setPivotXToTitle(View view) {
+//        Configuration config = getResources().getConfiguration();
+//        if (Build.VERSION_CODES.JELLY_BEAN_MR1 <= Build.VERSION.SDK_INT
+//                && config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+//            ViewHelper.setPivotX(mTitleView, view.findViewById(android.R.id.content).getWidth());
+//        } else {
+//            ViewHelper.setPivotX(mTitleView, 0);
+//        }
+//    }
+
+    private void showFab() {
+        if (!mFabIsShown) {
+//            ViewPropertyAnimator.animate(mFab).cancel();
+//            ViewPropertyAnimator.animate(mFab).scaleY(1).setDuration(200).start();
+            mFab.showMenuButton(true);
+            mFabIsShown = true;
+        }
+    }
+
+    private void hideFab() {
+        if (mFabIsShown) {
+//            ViewPropertyAnimator.animate(mFab).cancel();
+//            ViewPropertyAnimator.animate(mFab).scaleY(0).setDuration(200).start();
+            mFab.hideMenuButton(true);
+            mFabIsShown = false;
         }
     }
 }

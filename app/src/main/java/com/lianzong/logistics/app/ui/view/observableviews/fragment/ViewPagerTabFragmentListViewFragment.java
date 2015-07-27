@@ -69,7 +69,7 @@ public class ViewPagerTabFragmentListViewFragment extends BaseFragment {
     }
 
     private void initFloatingMenus(View view) {
-        mMenusGoods = (FloatingActionMenu) view.findViewById(R.id.fb_menus_goods);
+        mMenusGoods = (FloatingActionMenu) view.findViewById(R.id.fb_menus);
         mMenusGoods.setClosedOnTouchOutside(true);
         mMenusGoods.hideMenuButton(false);
         mHandler.postDelayed(new Runnable() {

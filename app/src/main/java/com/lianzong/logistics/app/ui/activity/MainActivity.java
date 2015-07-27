@@ -11,13 +11,12 @@ import android.widget.AdapterView;
 import com.lianzong.logistics.app.LogisticsApplication;
 import com.lianzong.logistics.app.R;
 import com.lianzong.logistics.app.push.PushDemoActivity;
-import com.lianzong.logistics.app.ui.fragment.ContactFragment;
 import com.lianzong.logistics.app.ui.fragment.GoodsListFragment;
-import com.lianzong.logistics.app.ui.fragment.HelpFragment;
 import com.lianzong.logistics.app.ui.fragment.SettingFragment;
-import com.lianzong.logistics.app.ui.view.observableviews.fragment.FlexibleSpaceWithImageFragment;
-import com.lianzong.logistics.app.ui.view.observableviews.fragment.ViewPagerTabFragmentParentFragment;
 import com.lianzong.logistics.app.ui.view.fab.FBMainActivity;
+import com.lianzong.logistics.app.ui.view.observableviews.fragment.FlexibleSpaceWithImageFragment;
+import com.lianzong.logistics.app.ui.view.observableviews.fragment.FlexibleSpaceWithImageWithToolBarFragment;
+import com.lianzong.logistics.app.ui.view.observableviews.fragment.ViewPagerTabFragmentParentFragment;
 import com.lianzong.logistics.app.ui.view.pulltorefresh.XListViewActivity;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -192,8 +191,13 @@ public class MainActivity extends BaseActivity {
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, helpFragment).commit();
                                         break;
                                     case IDENTIFIER_CONTACT:
-                                        Fragment contactFragment = ContactFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
+//                                        Fragment contactFragment = ContactFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
+//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
+
+                                        Fragment contactFragment = FlexibleSpaceWithImageWithToolBarFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
+
+
                                         break;
                                     case IDENTIFIER_DEBUG_PUSH:
                                         Intent pushDemoActivity = new Intent(MainActivity.this, PushDemoActivity.class);

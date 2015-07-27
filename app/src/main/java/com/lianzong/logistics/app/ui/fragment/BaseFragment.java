@@ -18,12 +18,11 @@ package com.lianzong.logistics.app.ui.fragment;
 
 import android.app.Activity;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ListView;
 
 import com.lianzong.logistics.app.R;
@@ -32,10 +31,33 @@ import com.lianzong.logistics.app.ui.activity.BaseActivity;
 import java.util.ArrayList;
 
 public abstract class BaseFragment extends Fragment {
-    public static final String KEY_TITLE = "title";
+    protected static final String KEY_TITLE = "title";
+    protected static final float MAX_TEXT_SCALE_DELTA = 0.3f;
+
+    protected int mActionBarSize;
+    protected int mFlexibleSpaceHeight;
+    protected int mTabHeight;
+    protected float mFlexibleRange;
+    protected int mFabMargin;
+    protected int mFlexibleSpaceShowFabOffset;
+    protected int mFloatingActionMenuTopMargin;
 
     public static ArrayList<String> getDummyData() {
         return BaseActivity.getDummyData();
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mActionBarSize = getActionBarSize();
+        mFlexibleSpaceHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
+        mTabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
+        mFlexibleRange = mFlexibleSpaceHeight - mActionBarSize;
+        mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
+        mFlexibleSpaceShowFabOffset = getResources().getDimensionPixelSize(R.dimen.flexible_space_show_fab_offset);
+        mFloatingActionMenuTopMargin = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_fab_margin_top);
     }
 
     protected int getActionBarSize() {

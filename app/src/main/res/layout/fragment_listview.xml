@@ -14,6 +14,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        layout="@layout/floating_menus_on_bottom" />
+        layout="@layout/floating_menus" />
 
 </FrameLayout>
