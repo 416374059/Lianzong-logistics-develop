@@ -29,8 +29,34 @@ import com.lianzong.logistics.app.R;
 import java.util.ArrayList;
 
 public abstract class BaseActivity extends AppCompatActivity {
+    protected static final String KEY_TITLE = "title";
+
     private static final int NUM_OF_ITEMS = 100;
     private static final int NUM_OF_ITEMS_FEW = 3;
+
+    protected int mActionBarSize;
+    protected int mFlexibleSpaceHeight;
+    protected int mTabHeight;
+    protected float mFlexibleRange;
+    protected int mFabMargin;
+    protected int mFlexibleSpaceShowFabOffset;
+    protected int mFloatingActionMenuTopMargin;
+    protected int mActivityPaddingLeft, mActivityPaddingTop, mActivityPaddingRight, mActivityPaddingBottom;
+
+    protected void getDimensionPixelSize() {
+        mActionBarSize = getActionBarSize();
+        mFlexibleSpaceHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
+        mTabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
+        mFlexibleRange = mFlexibleSpaceHeight - mActionBarSize;
+        mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
+        mFlexibleSpaceShowFabOffset = getResources().getDimensionPixelSize(R.dimen.flexible_space_show_fab_offset);
+        mFloatingActionMenuTopMargin = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_fab_margin_top);
+
+        mActivityPaddingLeft = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        mActivityPaddingTop = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
+        mActivityPaddingRight = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        mActivityPaddingBottom = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
+    }
 
     protected int getActionBarSize() {
         TypedValue typedValue = new TypedValue();

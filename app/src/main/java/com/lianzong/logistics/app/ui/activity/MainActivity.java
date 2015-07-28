@@ -3,8 +3,8 @@ package com.lianzong.logistics.app.ui.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -12,11 +12,10 @@ import com.lianzong.logistics.app.LogisticsApplication;
 import com.lianzong.logistics.app.R;
 import com.lianzong.logistics.app.push.PushDemoActivity;
 import com.lianzong.logistics.app.ui.fragment.GoodsListFragment;
+import com.lianzong.logistics.app.ui.fragment.HelpFragment;
+import com.lianzong.logistics.app.ui.fragment.MyVehiclesListFragment;
 import com.lianzong.logistics.app.ui.fragment.SettingFragment;
 import com.lianzong.logistics.app.ui.view.fab.FBMainActivity;
-import com.lianzong.logistics.app.ui.view.observableviews.fragment.FlexibleSpaceWithImageFragment;
-import com.lianzong.logistics.app.ui.view.observableviews.fragment.FlexibleSpaceWithImageWithToolBarFragment;
-import com.lianzong.logistics.app.ui.view.observableviews.fragment.ViewPagerTabFragmentParentFragment;
 import com.lianzong.logistics.app.ui.view.pulltorefresh.XListViewActivity;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -36,7 +35,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
 public class MainActivity extends BaseActivity {
-    private static final int PROFILE_SETTING = 1;
+    private static final int PROFILE_SETTING = 0;
 
     // drawer item Identifier ID
     // app function item
@@ -55,6 +54,9 @@ public class MainActivity extends BaseActivity {
     private AccountHeader headerResult = null;
     private Drawer result = null;
     private IProfile defaultProfile;
+
+    // fragment state
+    private int mLastFragmentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,49 +169,48 @@ public class MainActivity extends BaseActivity {
 
                         if (drawerItem != null) {
                             if (drawerItem instanceof Nameable) {
-                                getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
                                 switch (drawerItem.getIdentifier()) {
                                     case IDENTIFIER_GOODS:
-                                        Fragment goodsListFragment = GoodsListFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
-                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, goodsListFragment).commit();
+                                        getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, GoodsListFragment.newInstance()).commitAllowingStateLoss();
+                                        mLastFragmentId = IDENTIFIER_GOODS;
                                         break;
                                     case IDENTIFIER_MY_VEHICLES:
-                                        // ViewPagerTabFragmentParentFragment
-//                                        Fragment myVehiclesListFragment = MyVehiclesListFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
-//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myVehiclesListFragment).commit();
-                                        Fragment myVehiclesListFragment = ViewPagerTabFragmentParentFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
-                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myVehiclesListFragment).commit();
+                                        getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, MyVehiclesListFragment.newInstance()).commitAllowingStateLoss();
+                                        mLastFragmentId = IDENTIFIER_MY_VEHICLES;
                                         break;
                                     case IDENTIFIER_SETTING:
-                                        Fragment settingFragment = SettingFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
-                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, settingFragment).commit();
+                                        getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingFragment.newInstance()).commitAllowingStateLoss();
+                                        mLastFragmentId = IDENTIFIER_SETTING;
                                         break;
                                     case IDENTIFIER_HELP:
-//                                        Fragment helpFragment = HelpFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
-//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, helpFragment).commit();
-                                        Fragment helpFragment = FlexibleSpaceWithImageFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
-                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, helpFragment).commit();
+                                        getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, HelpFragment.newInstance()).commitAllowingStateLoss();
+                                        mLastFragmentId = IDENTIFIER_HELP;
                                         break;
                                     case IDENTIFIER_CONTACT:
-//                                        Fragment contactFragment = ContactFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
+//                                        getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
+
+//                                        Fragment contactFragment = ContactFragment.newInstance(title);
+//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
+//                                        Fragment contactFragment = FlexibleSpaceWithImageWithToolBarFragment.newInstance(title);
 //                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
 
-                                        Fragment contactFragment = FlexibleSpaceWithImageWithToolBarFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()));
-                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
-
-
+                                        Intent intent = new Intent();
+                                        intent.setClass(MainActivity.this, GoodsDetailsActivity.class);
+                                        intent.putExtra(BaseActivity.KEY_TITLE, getResources().getText(R.string.activity_title_goods_details));
+                                        MainActivity.this.startActivityForResult(intent, IDENTIFIER_CONTACT);
                                         break;
                                     case IDENTIFIER_DEBUG_PUSH:
-                                        Intent pushDemoActivity = new Intent(MainActivity.this, PushDemoActivity.class);
-                                        MainActivity.this.startActivity(pushDemoActivity);
+                                        MainActivity.this.startActivityForResult(new Intent(MainActivity.this, PushDemoActivity.class), IDENTIFIER_DEBUG_PUSH);
                                         break;
                                     case IDENTIFIER_DEBUG_XLIST_VIEW:
-                                        Intent xlistviewDemoActivity = new Intent(MainActivity.this, XListViewActivity.class);
-                                        MainActivity.this.startActivity(xlistviewDemoActivity);
+                                        MainActivity.this.startActivityForResult(new Intent(MainActivity.this, XListViewActivity.class), IDENTIFIER_DEBUG_XLIST_VIEW);
                                         break;
                                     case IDENTIFIER_DEBUG_FLOAGION_ACTION_WIDGETS:
-                                        Intent fBMainActivity = new Intent(MainActivity.this, FBMainActivity.class);
-                                        MainActivity.this.startActivity(fBMainActivity);
+                                        MainActivity.this.startActivityForResult(new Intent(MainActivity.this, FBMainActivity.class), IDENTIFIER_DEBUG_FLOAGION_ACTION_WIDGETS);
                                         break;
                                     default:
                                         break;
@@ -239,8 +240,7 @@ public class MainActivity extends BaseActivity {
 
         //only set the active selection or active profile if we do not recreate the activity
         if (savedInstanceState == null) {
-            // set the selection to the item with the identifier 11
-            result.setSelectionByIdentifier(11, false);
+            result.setSelectionByIdentifier(IDENTIFIER_GOODS, false);
 
             //set the active profile
             if (LogisticsApplication.sIsSuportAccount) {
@@ -266,5 +266,13 @@ public class MainActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("wsl", "onActivityResult: mLastFragmentId = " + mLastFragmentId + ", requestCode = " + requestCode + ", resultCode = " + resultCode);
+        result.setSelectionByIdentifier(mLastFragmentId);
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

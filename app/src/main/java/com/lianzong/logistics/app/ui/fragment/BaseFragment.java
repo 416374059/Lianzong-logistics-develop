@@ -17,6 +17,7 @@
 package com.lianzong.logistics.app.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,7 +32,6 @@ import com.lianzong.logistics.app.ui.activity.BaseActivity;
 import java.util.ArrayList;
 
 public abstract class BaseFragment extends Fragment {
-    protected static final String KEY_TITLE = "title";
     protected static final float MAX_TEXT_SCALE_DELTA = 0.3f;
 
     protected int mActionBarSize;
@@ -41,6 +41,10 @@ public abstract class BaseFragment extends Fragment {
     protected int mFabMargin;
     protected int mFlexibleSpaceShowFabOffset;
     protected int mFloatingActionMenuTopMargin;
+
+    protected int mActivityPaddingLeft, mActivityPaddingTop, mActivityPaddingRight, mActivityPaddingBottom;
+
+    protected Context mContext;
 
     public static ArrayList<String> getDummyData() {
         return BaseActivity.getDummyData();
@@ -58,6 +62,11 @@ public abstract class BaseFragment extends Fragment {
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
         mFlexibleSpaceShowFabOffset = getResources().getDimensionPixelSize(R.dimen.flexible_space_show_fab_offset);
         mFloatingActionMenuTopMargin = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_fab_margin_top);
+
+        mActivityPaddingLeft = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        mActivityPaddingTop = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
+        mActivityPaddingRight = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        mActivityPaddingBottom = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
     }
 
     protected int getActionBarSize() {

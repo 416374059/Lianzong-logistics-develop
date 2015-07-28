@@ -21,21 +21,6 @@ import com.nineoldandroids.view.ViewHelper;
 
 public class FlexibleSpaceWithImageWithToolBarFragment extends BaseFragment implements ObservableScrollViewCallbacks{
 
-    public FlexibleSpaceWithImageWithToolBarFragment() {
-        // Required empty public constructor
-    }
-
-    public static FlexibleSpaceWithImageWithToolBarFragment newInstance(String title) {
-        FlexibleSpaceWithImageWithToolBarFragment f = new FlexibleSpaceWithImageWithToolBarFragment();
-
-        Bundle args = new Bundle();
-
-        args.putString(KEY_TITLE, title);
-        f.setArguments(args);
-
-        return (f);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_flexible_space_with_image_with_tool_bar, container, false);

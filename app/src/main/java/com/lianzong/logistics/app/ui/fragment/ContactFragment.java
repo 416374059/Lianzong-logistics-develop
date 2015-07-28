@@ -1,37 +1,52 @@
 package com.lianzong.logistics.app.ui.fragment;
 
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.lianzong.logistics.app.R;
+import com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu;
+import com.lianzong.logistics.app.ui.view.observableviews.fragment.ContentDetailsBaseFragment;
 
 
-public class ContactFragment extends Fragment {
-    private static final String KEY_TITLE = "title";
+public class ContactFragment extends ContentDetailsBaseFragment {
+
+    private final static ContactFragment fragment = new ContactFragment();
 
     public ContactFragment() {
-        // Required empty public constructor
     }
 
-    public static ContactFragment newInstance(String title) {
-        ContactFragment f = new ContactFragment();
-
-        Bundle args = new Bundle();
-
-        args.putString(KEY_TITLE, title);
-        f.setArguments(args);
-
-        return (f);
+    public static ContactFragment newInstance() {
+        return fragment;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        // don't look at this layout it's just a listView to show how to handle the keyboard
-        return inflater.inflate(R.layout.fragment_sample, container, false);
+    protected void setupHeaderLayout(LinearLayout headView) {
+        if (null == headView) return;
+
+        ImageView helpHeader = new ImageView(mContext);
+        helpHeader.setImageResource(R.drawable.example);
+        helpHeader.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        headView.addView(helpHeader);
+    }
+
+    @Override
+    protected void setupScrollViewContainer(LinearLayout scrollViewContainer) {
+        TextView contactContainer = new TextView(mContext);
+        contactContainer.setBackgroundResource(android.R.color.white);
+        contactContainer.setPadding(mActivityPaddingLeft, mActivityPaddingTop, mActivityPaddingRight, mActivityPaddingBottom);
+        contactContainer.setText(R.string.contact);
+
+        scrollViewContainer.addView(contactContainer);
+    }
+
+    @Override
+    protected void setupFloatingActionButtons(FloatingActionMenu fabMenu) {
+        if (null == fabMenu) return;
+
+        fabMenu.setVisibility(View.GONE);
     }
 }

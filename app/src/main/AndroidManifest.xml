@@ -29,7 +29,6 @@
             android:name="cfg_version"
             android:value="DEBUG" /><!--DEBUG/RELEASE-->
 
-
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
@@ -41,6 +40,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.activity.GoodsDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar">
+        </activity>
+
+        <!-- 功能测试 -->
         <activity
             android:name=".ui.view.pulltorefresh.XListViewActivity"
             android:label="@string/drawer_item_debug_xlistview"

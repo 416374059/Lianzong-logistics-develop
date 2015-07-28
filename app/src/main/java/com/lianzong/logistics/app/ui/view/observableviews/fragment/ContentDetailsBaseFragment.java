@@ -2,16 +2,15 @@ package com.lianzong.logistics.app.ui.view.observableviews.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.lianzong.logistics.app.R;
 import com.lianzong.logistics.app.ui.fragment.BaseFragment;
 import com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu;
-import com.lianzong.logistics.app.ui.view.observableviews.FlexibleSpaceContainerLayout;
 import com.lianzong.logistics.app.ui.view.observableviews.ObservableScrollView;
 import com.lianzong.logistics.app.ui.view.observableviews.ObservableScrollViewCallbacks;
 import com.lianzong.logistics.app.ui.view.observableviews.ScrollState;
@@ -19,33 +18,20 @@ import com.lianzong.logistics.app.ui.view.observableviews.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 
-public class FlexibleSpaceWithImageFragment extends BaseFragment implements ObservableScrollViewCallbacks{
+/**
+ * xxx详情界面的fragment基类，用于提供标准化的界面，子类去实现content布局的填充，以及相应业务逻辑
+ */
+public abstract class ContentDetailsBaseFragment extends BaseFragment implements ObservableScrollViewCallbacks{
 
-    protected static final float MAX_TEXT_SCALE_DELTA = 0.3f;
+//    protected static final float MAX_TEXT_SCALE_DELTA = 0.3f;
 
     private ObservableScrollView mScrollView;
-    private FloatingActionMenu mFab;
-    private FlexibleSpaceContainerLayout mFlexibleSpaceContainerView;
     private View mOverlayView;
+    private FloatingActionMenu mFab;
+    private LinearLayout mLlHeaderView;
+    private LinearLayout mLlScrollViewContainer;
 
     private boolean mFabIsShown;
-
-    public FlexibleSpaceWithImageFragment() {
-        // Required empty public constructor
-    }
-
-    public static FlexibleSpaceWithImageFragment newInstance(String title) {
-        FlexibleSpaceWithImageFragment f = new FlexibleSpaceWithImageFragment();
-
-        Bundle args = new Bundle();
-
-        args.putString(KEY_TITLE, title);
-        f.setArguments(args);
-
-
-        Log.i("wsl", "FlexibleSpaceWithImageFragment created.");
-        return (f);
-    }
 
     public void setScrollViewScrollBarShown(boolean shown) {
         if (null != mScrollView) {
@@ -53,16 +39,16 @@ public class FlexibleSpaceWithImageFragment extends BaseFragment implements Obse
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_flexible_space_with_image, container, false);
+        return inflater.inflate(R.layout.fragment_base_content_details, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mContext = getActivity();
         initViews(view);
 
         ScrollUtils.addOnGlobalLayoutListener(mScrollView, new Runnable() {
@@ -86,11 +72,24 @@ public class FlexibleSpaceWithImageFragment extends BaseFragment implements Obse
     }
 
     private void initViews(View view) {
+        // header view
+        mLlHeaderView = (LinearLayout) view.findViewById(R.id.flexible_space_container);
+        setupHeaderLayout(mLlHeaderView);
+
+        // overlay view
+        mOverlayView = view.findViewById(R.id.overlay);
+
+        // scroll view
         mScrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
-        setScrollViewScrollBarShown(false);
         mScrollView.setScrollViewCallbacks(this);
 
+        // scroll container view
+        mLlScrollViewContainer = (LinearLayout) view.findViewById(R.id.ll_scroll_view_container);
+        setupScrollViewContainer(mLlScrollViewContainer);
+
+        // floating action menu
         mFab = (FloatingActionMenu) view.findViewById(R.id.fb_menus_down);
+        setupFloatingActionButtons(mFab);
         mFab.hideMenuButton(false);
         mFab.postDelayed(new Runnable() {
             @Override
@@ -98,9 +97,6 @@ public class FlexibleSpaceWithImageFragment extends BaseFragment implements Obse
                 mFab.showMenuButton(true);
             }
         }, 400);
-
-        mFlexibleSpaceContainerView = (FlexibleSpaceContainerLayout) view.findViewById(R.id.flexible_space_container);
-        mOverlayView = view.findViewById(R.id.overlay);
     }
 
     @Override
@@ -147,7 +143,7 @@ public class FlexibleSpaceWithImageFragment extends BaseFragment implements Obse
         ViewHelper.setAlpha(mOverlayView, ScrollUtils.getFloat((float) scrollY / mFlexibleRange, 0, 1));
 
         // flexible space container
-        ViewHelper.setTranslationY(mFlexibleSpaceContainerView, ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
+        ViewHelper.setTranslationY(mLlHeaderView, ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
 
 //        // Scale title text
 //        float scale = 1 + ScrollUtils.getFloat((mFlexibleRange - scrollY) / mFlexibleRange, 0, MAX_TEXT_SCALE_DELTA);
@@ -163,18 +159,16 @@ public class FlexibleSpaceWithImageFragment extends BaseFragment implements Obse
 
         // Translate FAB
         final int maxFabTranslationY = mFlexibleSpaceShowFabOffset;
-        Log.i("wsl", "maxFabTranslationY = " + maxFabTranslationY );
 //        float fabTranslationY = ScrollUtils.getFloat(
 //                -scrollY + mFlexibleSpaceHeight - mFab.getHeight() / 2,
 //                mActionBarSize - mFab.getHeight() / 2,
 //                maxFabTranslationY);
         float fabTranslationY = -scrollY;
-        Log.i("wsl", "fabTranslationY = " + fabTranslationY );
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             // On pre-honeycomb, ViewHelper.setTranslationX/Y does not set margin,
             // which causes FAB's OnClickListener not working.
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mFab.getLayoutParams();
-            lp.leftMargin = mOverlayView.getWidth() - mFabMargin - mFab.getWidth();
+//            lp.leftMargin = mOverlayView.getWidth() - mFabMargin - mFab.getWidth();
             lp.topMargin = (int) fabTranslationY;
             mFab.requestLayout();
         } else {
@@ -218,4 +212,19 @@ public class FlexibleSpaceWithImageFragment extends BaseFragment implements Obse
             mFabIsShown = false;
         }
     }
+
+
+
+    /**
+     * 配置header view
+     */
+    protected abstract void setupHeaderLayout(LinearLayout headView);
+    /**
+     * 配置container view
+     */
+    protected abstract void setupScrollViewContainer(LinearLayout scrollViewContainer);
+    /**
+     * 配置fab button
+     */
+    protected abstract void setupFloatingActionButtons(FloatingActionMenu fabMenu);
 }

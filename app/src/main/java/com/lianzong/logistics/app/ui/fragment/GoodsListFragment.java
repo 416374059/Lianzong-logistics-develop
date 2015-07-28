@@ -41,19 +41,13 @@ public class GoodsListFragment extends Fragment implements XListView.IXListViewL
 
     private Handler mHandler;
 
+    private final static GoodsListFragment fragment = new GoodsListFragment();
+
     public GoodsListFragment() {
-        // Required empty public constructor
     }
 
-    public static GoodsListFragment newInstance(String title) {
-        GoodsListFragment f = new GoodsListFragment();
-
-        Bundle args = new Bundle();
-
-        args.putString(KEY_TITLE, title);
-        f.setArguments(args);
-
-        return (f);
+    public static GoodsListFragment newInstance() {
+        return fragment;
     }
 
     @Override

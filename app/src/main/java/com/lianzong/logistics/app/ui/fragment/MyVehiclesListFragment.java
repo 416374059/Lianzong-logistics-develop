@@ -8,9 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
 
-import com.gc.materialdesign.views.ButtonRectangle;
 import com.lianzong.logistics.app.R;
 import com.lianzong.logistics.app.ui.view.pulltorefresh.XListView;
 
@@ -21,7 +19,6 @@ import java.util.Locale;
 
 
 public class MyVehiclesListFragment extends Fragment implements XListView.IXListViewListener, View.OnClickListener {
-    private static final String KEY_TITLE = "title";
 
     private XListView mListView;
     private ArrayAdapter<String> mAdapter;
@@ -31,19 +28,13 @@ public class MyVehiclesListFragment extends Fragment implements XListView.IXList
 
     private Handler mHandler;
 
+    private final static MyVehiclesListFragment fragment = new MyVehiclesListFragment();
+
     public MyVehiclesListFragment() {
-        // Required empty public constructor
     }
 
-    public static MyVehiclesListFragment newInstance(String title) {
-        MyVehiclesListFragment f = new MyVehiclesListFragment();
-
-        Bundle args = new Bundle();
-
-        args.putString(KEY_TITLE, title);
-        f.setArguments(args);
-
-        return (f);
+    public static MyVehiclesListFragment newInstance() {
+        return fragment;
     }
 
     @Override
