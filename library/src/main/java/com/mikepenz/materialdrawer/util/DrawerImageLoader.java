@@ -3,7 +3,6 @@ package com.mikepenz.materialdrawer.util;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.ImageView;
 
 /**
@@ -27,9 +26,13 @@ public class DrawerImageLoader {
         if (SINGLETON == null) {
             SINGLETON = new DrawerImageLoader(new IDrawerImageLoader() {
                 @Override
-                public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                public void set(ImageView imageView, Uri uri, int errorImgId, Drawable placeholder) {
                     //this won't do anything
-                    Log.i("MaterialDrawer", "you have not specified a ImageLoader implementation through the DrawerImageLoader.init(IDrawerImageLoader) method");
+                }
+
+                @Override
+                public void set(ImageView imageView, int resourceId, int errorImgId, Drawable placeholder) {
+                    //this won't do anything
                 }
 
                 @Override
@@ -46,7 +49,7 @@ public class DrawerImageLoader {
         return SINGLETON;
     }
 
-    public void setImage(ImageView imageView, Uri uri) {
+    public void setImage(ImageView imageView, Uri uri, int errorImgId) {
         if (imageLoader != null) {
             Drawable placeHolder = imageLoader.placeholder(imageView.getContext());
 
@@ -54,7 +57,19 @@ public class DrawerImageLoader {
                 placeHolder = UIUtils.getPlaceHolder(imageView.getContext());
             }
 
-            imageLoader.set(imageView, uri, placeHolder);
+            imageLoader.set(imageView, uri, errorImgId, placeHolder);
+        }
+    }
+
+    public void setImage(ImageView imageView, int resourceId, int errorImgId) {
+        if (imageLoader != null) {
+            Drawable placeHolder = imageLoader.placeholder(imageView.getContext());
+
+            if (placeHolder == null) {
+                placeHolder = UIUtils.getPlaceHolder(imageView.getContext());
+            }
+
+            imageLoader.set(imageView, resourceId, errorImgId, placeHolder);
         }
     }
 
@@ -73,7 +88,9 @@ public class DrawerImageLoader {
     }
 
     public interface IDrawerImageLoader {
-        public void set(ImageView imageView, Uri uri, Drawable placeholder);
+        public void set(ImageView imageView, Uri uri, int errorImgId, Drawable placeholder);
+
+        public void set(ImageView imageView, int resourceId, int errorImgId, Drawable placeholder);
 
         public void cancel(ImageView imageView);
 

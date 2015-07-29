@@ -116,7 +116,7 @@ public class PushDemoActivity extends Activity implements View.OnClickListener {
 
         // Push: 以apikey的方式登录，一般放在主Activity的onCreate中。
         // 这里把apikey存放于manifest文件中，只是一种存放方式，
-        // 您可以用自定义常量等其它方式实现，来替换参数中的Utils.getMetaValue(PushDemoActivity.this,
+        // 您可以用自定义常量等其它方式实现，来替换参数中的Utils.getStringMetaValue(PushDemoActivity.this,
         // "api_key")
         PushManager.startWork(getApplicationContext(),
                 PushConstants.LOGIN_TYPE_API_KEY,

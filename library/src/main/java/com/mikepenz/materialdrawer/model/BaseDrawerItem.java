@@ -2,6 +2,7 @@ package com.mikepenz.materialdrawer.model;
 
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 
 import com.mikepenz.iconics.typeface.IIcon;
 import com.mikepenz.materialdrawer.model.interfaces.Checkable;
@@ -48,7 +49,14 @@ public abstract class BaseDrawerItem<T> implements IDrawerItem, Nameable<T>, Ico
     private int disabledIconColor = 0;
     private int disabledIconColorRes = -1;
 
+    private int visibility = View.VISIBLE;
+
     private Typeface typeface = null;
+
+    public T withVisibility(int visibility) {
+        this.visibility = visibility;
+        return (T) this;
+    }
 
     public T withIdentifier(int identifier) {
         this.identifier = identifier;
@@ -358,6 +366,15 @@ public abstract class BaseDrawerItem<T> implements IDrawerItem, Nameable<T>, Ico
     public void setNameRes(int nameRes) {
         this.nameRes = nameRes;
         this.name = null;
+    }
+
+    @Override
+    public int getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibilty(int visibility) {
+        this.visibility = visibility;
     }
 
     @Override

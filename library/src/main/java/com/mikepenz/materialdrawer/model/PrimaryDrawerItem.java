@@ -2,6 +2,7 @@ package com.mikepenz.materialdrawer.model;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,6 +141,15 @@ public class PrimaryDrawerItem extends BaseDrawerItem<PrimaryDrawerItem> impleme
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        if (this.getVisibility() != View.VISIBLE) {
+            ViewGroup.LayoutParams params = convertView.getLayoutParams();
+            params.height = 0;
+            convertView.setLayoutParams(params);
+            convertView.setVisibility(this.getVisibility());
+            Log.i("wsl", " ");
+            return convertView;
         }
 
         //get the correct color for the background

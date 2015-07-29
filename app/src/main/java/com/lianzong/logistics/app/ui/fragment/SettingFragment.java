@@ -8,13 +8,13 @@ import android.widget.TextView;
 
 import com.lianzong.logistics.app.R;
 import com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu;
-import com.lianzong.logistics.app.ui.view.observableviews.fragment.ContentDetailsBaseFragment;
+import com.lianzong.logistics.app.ui.view.observableviews.fragment.BaseContentDetailsFragment;
 
 
 /**
  * 设置
  */
-public class SettingFragment extends ContentDetailsBaseFragment {
+public class SettingFragment extends BaseContentDetailsFragment {
 
     private final static SettingFragment fragment = new SettingFragment();
 

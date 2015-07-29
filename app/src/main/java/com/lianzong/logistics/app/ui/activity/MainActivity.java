@@ -11,14 +11,13 @@ import android.widget.AdapterView;
 import com.lianzong.logistics.app.LogisticsApplication;
 import com.lianzong.logistics.app.R;
 import com.lianzong.logistics.app.push.PushDemoActivity;
-import com.lianzong.logistics.app.ui.fragment.GoodsListFragment;
 import com.lianzong.logistics.app.ui.fragment.HelpFragment;
-import com.lianzong.logistics.app.ui.fragment.MyVehiclesListFragment;
+import com.lianzong.logistics.app.ui.fragment.LogisticsFragment;
 import com.lianzong.logistics.app.ui.fragment.SettingFragment;
 import com.lianzong.logistics.app.ui.view.fab.FBMainActivity;
+import com.lianzong.logistics.app.ui.view.observableviews.fragment.BaseViewPagerParentFragment;
+import com.lianzong.logistics.app.ui.view.observableviews.fragment.FlexibleSpaceWithImageWithToolBarFragment;
 import com.lianzong.logistics.app.ui.view.pulltorefresh.XListViewActivity;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -27,7 +26,6 @@ import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Badgeable;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -38,17 +36,22 @@ public class MainActivity extends BaseActivity {
     private static final int PROFILE_SETTING = 0;
 
     // drawer item Identifier ID
-    // app function item
-    private static final int IDENTIFIER_GOODS = 1;
-    private static final int IDENTIFIER_MY_VEHICLES = IDENTIFIER_GOODS + 1;
-    // settings item
-    private static final int IDENTIFIER_SETTING = 50;
-    private static final int IDENTIFIER_HELP = IDENTIFIER_SETTING + 1;
-    private static final int IDENTIFIER_CONTACT = IDENTIFIER_SETTING + 2;
+    // primary app function item
+    private static final int IDENTIFIER_PRIMARY_LOGISTICS = 1;
+    private static final int IDENTIFIER_PRIMARY_IM = IDENTIFIER_PRIMARY_LOGISTICS + 1;
+    private static final int IDENTIFIER_PRIMARY_MARKET = IDENTIFIER_PRIMARY_LOGISTICS + 2;
+    private static final int IDENTIFIER_PRIMARY_JOBS = IDENTIFIER_PRIMARY_LOGISTICS + 3;
+    // secondary item
+    private static final int IDENTIFIER_SECONDARY_MIME = 50;
+    private static final int IDENTIFIER_SECONDARY_SETTING= IDENTIFIER_SECONDARY_MIME + 1;
+    // secondary item 2
+    private static final int IDENTIFIER_SECONDARY_AUTO_INSURAMCE = 100;
+    private static final int IDENTIFIER_SECONDARY_WEATHER= IDENTIFIER_SECONDARY_AUTO_INSURAMCE + 1;
+    private static final int IDENTIFIER_SECONDARY_CALL_SERVICES= IDENTIFIER_SECONDARY_AUTO_INSURAMCE + 2;
     // debug item
-    private static final int IDENTIFIER_DEBUG_PUSH = 100;
-    private static final int IDENTIFIER_DEBUG_XLIST_VIEW = IDENTIFIER_DEBUG_PUSH + 1;
-    private static final int IDENTIFIER_DEBUG_FLOAGION_ACTION_WIDGETS = IDENTIFIER_DEBUG_PUSH + 2;
+    private static final int IDENTIFIER_DEBUG_PUSH = 1000;
+    private static final int IDENTIFIER_DEBUG_REFRESH_LIST_VIEW = IDENTIFIER_DEBUG_PUSH + 1;
+    private static final int IDENTIFIER_DEBUG_FLOATION_ACTION_WIDGETS = IDENTIFIER_DEBUG_PUSH + 2;
 
     //save our header or result
     private AccountHeader headerResult = null;
@@ -79,22 +82,22 @@ public class MainActivity extends BaseActivity {
             final IProfile profile4 = new ProfileDrawerItem().withName("Felix House").withEmail("felix.house@gmail.com").withIcon(getResources().getDrawable(R.drawable.profile3));
             final IProfile profile5 = new ProfileDrawerItem().withName("Mr. X").withEmail("mister.x.super@gmail.com").withIcon(getResources().getDrawable(R.drawable.profile4)).withIdentifier(4);
             final IProfile profile6 = new ProfileDrawerItem().withName("Batman").withEmail("batman@gmail.com").withIcon(getResources().getDrawable(R.drawable.profile5));
-            defaultProfile = profile3;
+            defaultProfile = profile;
 
             // Create the AccountHeader
             headerResult = new AccountHeaderBuilder()
                     .withActivity(this)
                     .withHeaderBackground(R.drawable.header)
                     .addProfiles(
-                            profile,
-                            profile2,
-                            profile3,
-                            profile4,
-                            profile5,
-                            profile6,
-                            //don't ask but google uses 14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
-                            new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)).withIdentifier(PROFILE_SETTING),
-                            new ProfileSettingDrawerItem().withName("Manage Account").withIcon(GoogleMaterial.Icon.gmd_settings)
+                            profile
+//                            profile2,
+//                            profile3,
+//                            profile4,
+//                            profile5,
+//                            profile6,
+//                            //don't ask but google uses 14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
+//                            new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)).withIdentifier(PROFILE_SETTING),
+//                            new ProfileSettingDrawerItem().withName("Manage Account").withIcon(GoogleMaterial.Icon.gmd_settings)
                     )
                     .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                         @Override
@@ -126,21 +129,34 @@ public class MainActivity extends BaseActivity {
                     .build();
         }
 
+        //  create the footer
+//        ImageView footerView = new ImageView(MainActivity.this);
+//        footerView.setImageResource(R.drawable.footer);
+
         //Create the drawer
         result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
+//                .withFooter(footerView)
+//                .withFooterDivider(true)
                 .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_goods).withIcon(FontAwesome.Icon.faw_cubes).withBadge("99").withIdentifier(IDENTIFIER_GOODS),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_my_vehicles).withIcon(FontAwesome.Icon.faw_truck).withBadge("9").withIdentifier(IDENTIFIER_MY_VEHICLES),
+                        new PrimaryDrawerItem().withName(R.string.drawer_primary_logistics).withIcon(FontAwesome.Icon.faw_truck).withIdentifier(IDENTIFIER_PRIMARY_LOGISTICS),
+//                        new PrimaryDrawerItem().withName(R.string.drawer_primary_im).withIcon(FontAwesome.Icon.faw_comments).withBadge("9").withIdentifier(IDENTIFIER_PRIMARY_IM).withVisibility(LogisticsApplication.sNonOnlineModuleVisibility),
+//                        new PrimaryDrawerItem().withName(R.string.drawer_primary_market).withIcon(FontAwesome.Icon.faw_shopping_cart).withIdentifier(IDENTIFIER_PRIMARY_MARKET).withVisibility(LogisticsApplication.sNonOnlineModuleVisibility),
+//                        new PrimaryDrawerItem().withName(R.string.drawer_primary_jobs).withIcon(FontAwesome.Icon.faw_group).withIdentifier(IDENTIFIER_PRIMARY_JOBS).withVisibility(LogisticsApplication.sNonOnlineModuleVisibility),
                         new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cogs).withIdentifier(IDENTIFIER_SETTING),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_help).withIcon(FontAwesome.Icon.faw_question).withIdentifier(IDENTIFIER_HELP),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_phone).withIdentifier(IDENTIFIER_CONTACT),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_debug_push).withIcon(FontAwesome.Icon.faw_automobile).withIdentifier(IDENTIFIER_DEBUG_PUSH).setEnabled(LogisticsApplication.sIsVersionDebug),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_debug_xlistview).withIcon(FontAwesome.Icon.faw_barcode).withIdentifier(IDENTIFIER_DEBUG_XLIST_VIEW),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_debug_fab).withIcon(FontAwesome.Icon.faw_apple).withIdentifier(IDENTIFIER_DEBUG_FLOAGION_ACTION_WIDGETS)
+//                        new DividerDrawerItem().withDividerHeight(50).withDividerColor(MainActivity.this.getResources().getColor(R.color.transparent)),
+//                        new SecondaryDrawerItem().withName(R.string.drawer_secondary_auto_insurance).withIcon(FontAwesome.Icon.faw_inbox).withIdentifier(IDENTIFIER_SECONDARY_AUTO_INSURAMCE),
+                        new SecondaryDrawerItem().withName(R.string.drawer_secondary_weather).withIcon(FontAwesome.Icon.faw_wechat).withIdentifier(IDENTIFIER_SECONDARY_WEATHER),
+                        new SecondaryDrawerItem().withName(R.string.drawer_secondary_call_services).withIcon(FontAwesome.Icon.faw_yelp).withIdentifier(IDENTIFIER_SECONDARY_CALL_SERVICES),
+                        new DividerDrawerItem(),
+                        new SecondaryDrawerItem().withName(R.string.drawer_secondary_mine).withIcon(FontAwesome.Icon.faw_user).withIdentifier(IDENTIFIER_SECONDARY_MIME),
+                        new SecondaryDrawerItem().withName(R.string.drawer_secondary_settings).withIcon(FontAwesome.Icon.faw_cogs).withIdentifier(IDENTIFIER_SECONDARY_SETTING)
+//                        new DividerDrawerItem().withVisibility(LogisticsApplication.sDebugModuleVisibility),
+//                        new SecondaryDrawerItem().withName(R.string.drawer_test_debug_push).withIcon(FontAwesome.Icon.faw_apple).withIdentifier(IDENTIFIER_DEBUG_PUSH).withVisibility(LogisticsApplication.sDebugModuleVisibility),
+//                        new SecondaryDrawerItem().withName(R.string.drawer_test_debug_xlistview).withIcon(FontAwesome.Icon.faw_apple).withIdentifier(IDENTIFIER_DEBUG_REFRESH_LIST_VIEW).withVisibility(LogisticsApplication.sDebugModuleVisibility),
+//                        new SecondaryDrawerItem().withName(R.string.drawer_test_debug_fab).withIcon(FontAwesome.Icon.faw_apple).withIdentifier(IDENTIFIER_DEBUG_FLOATION_ACTION_WIDGETS).withVisibility(LogisticsApplication.sDebugModuleVisibility)
                 ) // add the items we want to use with our Drawer
                 .withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
@@ -170,47 +186,76 @@ public class MainActivity extends BaseActivity {
                         if (drawerItem != null) {
                             if (drawerItem instanceof Nameable) {
                                 switch (drawerItem.getIdentifier()) {
-                                    case IDENTIFIER_GOODS:
+                                    // primary items
+                                    case IDENTIFIER_PRIMARY_LOGISTICS:
                                         getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
-                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, GoodsListFragment.newInstance()).commitAllowingStateLoss();
-                                        mLastFragmentId = IDENTIFIER_GOODS;
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, LogisticsFragment.newInstance()).commitAllowingStateLoss();
+                                        mLastFragmentId = IDENTIFIER_PRIMARY_LOGISTICS;
                                         break;
-                                    case IDENTIFIER_MY_VEHICLES:
+                                    case IDENTIFIER_PRIMARY_IM:
                                         getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
-                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, MyVehiclesListFragment.newInstance()).commitAllowingStateLoss();
-                                        mLastFragmentId = IDENTIFIER_MY_VEHICLES;
+//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, VehiclesListFragment.newInstance()).commitAllowingStateLoss();
+                                        mLastFragmentId = IDENTIFIER_PRIMARY_IM;
                                         break;
-                                    case IDENTIFIER_SETTING:
+                                    case IDENTIFIER_PRIMARY_MARKET:
                                         getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
-                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingFragment.newInstance()).commitAllowingStateLoss();
-                                        mLastFragmentId = IDENTIFIER_SETTING;
+//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, VehiclesListFragment.newInstance()).commitAllowingStateLoss();
+                                        mLastFragmentId = IDENTIFIER_PRIMARY_MARKET;
                                         break;
-                                    case IDENTIFIER_HELP:
+                                    case IDENTIFIER_PRIMARY_JOBS:
+                                        getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
+//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, VehiclesListFragment.newInstance()).commitAllowingStateLoss();
+                                        mLastFragmentId = IDENTIFIER_PRIMARY_JOBS;
+                                        break;
+
+                                    // secondary items
+                                    case IDENTIFIER_SECONDARY_MIME:
                                         getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, HelpFragment.newInstance()).commitAllowingStateLoss();
-                                        mLastFragmentId = IDENTIFIER_HELP;
+                                        mLastFragmentId = IDENTIFIER_SECONDARY_MIME;
                                         break;
-                                    case IDENTIFIER_CONTACT:
-//                                        getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
-
-//                                        Fragment contactFragment = ContactFragment.newInstance(title);
-//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
-//                                        Fragment contactFragment = FlexibleSpaceWithImageWithToolBarFragment.newInstance(title);
-//                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
-
-                                        Intent intent = new Intent();
-                                        intent.setClass(MainActivity.this, MyVehicleListActivity.class);
-                                        intent.putExtra(BaseActivity.KEY_TITLE, getResources().getText(R.string.activity_title_my_vehicles));
-                                        MainActivity.this.startActivityForResult(intent, IDENTIFIER_CONTACT);
+                                    case IDENTIFIER_SECONDARY_SETTING:
+                                        getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingFragment.newInstance()).commitAllowingStateLoss();
+                                        mLastFragmentId = IDENTIFIER_SECONDARY_SETTING;
                                         break;
+                                    case IDENTIFIER_SECONDARY_AUTO_INSURAMCE:
+                                        getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, HelpFragment.newInstance()).commitAllowingStateLoss();
+                                        mLastFragmentId = IDENTIFIER_SECONDARY_MIME;
+                                        break;
+                                    case IDENTIFIER_SECONDARY_WEATHER:
+                                        getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
+
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FlexibleSpaceWithImageWithToolBarFragment.newInstance()).commitAllowingStateLoss();
+                                        mLastFragmentId = IDENTIFIER_SECONDARY_SETTING;
+                                        break;
+                                    case IDENTIFIER_SECONDARY_CALL_SERVICES:
+                                        getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, BaseViewPagerParentFragment.newInstance()).commitAllowingStateLoss();
+                                        mLastFragmentId = IDENTIFIER_SECONDARY_MIME;
+                                        break;
+//                                    case IDENTIFIER_CONTACT:
+////                                        getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
+//
+////                                        Fragment contactFragment = ContactFragment.newInstance(title);
+////                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
+//
+//                                        Intent intent = new Intent();
+//                                        intent.setClass(MainActivity.this, VehicleListActivity.class);
+//                                        intent.putExtra(BaseActivity.KEY_TITLE, getResources().getText(R.string.activity_title_my_vehicles));
+//                                        MainActivity.this.startActivityForResult(intent, IDENTIFIER_CONTACT);
+//                                        break;
+
+                                    // debug items
                                     case IDENTIFIER_DEBUG_PUSH:
                                         MainActivity.this.startActivityForResult(new Intent(MainActivity.this, PushDemoActivity.class), IDENTIFIER_DEBUG_PUSH);
                                         break;
-                                    case IDENTIFIER_DEBUG_XLIST_VIEW:
-                                        MainActivity.this.startActivityForResult(new Intent(MainActivity.this, XListViewActivity.class), IDENTIFIER_DEBUG_XLIST_VIEW);
+                                    case IDENTIFIER_DEBUG_REFRESH_LIST_VIEW:
+                                        MainActivity.this.startActivityForResult(new Intent(MainActivity.this, XListViewActivity.class), IDENTIFIER_DEBUG_REFRESH_LIST_VIEW);
                                         break;
-                                    case IDENTIFIER_DEBUG_FLOAGION_ACTION_WIDGETS:
-                                        MainActivity.this.startActivityForResult(new Intent(MainActivity.this, FBMainActivity.class), IDENTIFIER_DEBUG_FLOAGION_ACTION_WIDGETS);
+                                    case IDENTIFIER_DEBUG_FLOATION_ACTION_WIDGETS:
+                                        MainActivity.this.startActivityForResult(new Intent(MainActivity.this, FBMainActivity.class), IDENTIFIER_DEBUG_FLOATION_ACTION_WIDGETS);
                                         break;
                                     default:
                                         break;
@@ -236,11 +281,11 @@ public class MainActivity extends BaseActivity {
                 .withShowDrawerOnFirstLaunch(true)
                 .build();
         // first goto the goods item
-        result.setSelectionByIdentifier(IDENTIFIER_GOODS);
+        result.setSelectionByIdentifier(IDENTIFIER_PRIMARY_LOGISTICS);
 
         //only set the active selection or active profile if we do not recreate the activity
         if (savedInstanceState == null) {
-            result.setSelectionByIdentifier(IDENTIFIER_GOODS, false);
+            result.setSelectionByIdentifier(IDENTIFIER_PRIMARY_LOGISTICS, false);
 
             //set the active profile
             if (LogisticsApplication.sIsSuportAccount) {

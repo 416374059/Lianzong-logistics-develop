@@ -18,21 +18,21 @@ import com.lianzong.logistics.app.ui.view.observableviews.ScrollUtils;
 import com.lianzong.logistics.app.ui.view.observableviews.Scrollable;
 import com.nineoldandroids.view.ViewHelper;
 
-
+// 需要修改， need fix up
 public class FlexibleSpaceWithImageWithToolBarFragment extends BaseFragment implements ObservableScrollViewCallbacks{
+
+    private final static FlexibleSpaceWithImageWithToolBarFragment fragment = new FlexibleSpaceWithImageWithToolBarFragment();
+
+    public FlexibleSpaceWithImageWithToolBarFragment() {
+    }
+
+    public static FlexibleSpaceWithImageWithToolBarFragment newInstance() {
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_flexible_space_with_image_with_tool_bar, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        TextView titleView = (TextView) view.findViewById(R.id.title);
-        titleView.setText(R.string.drawer_item_contact);
-
     }
 
     @Override

@@ -29,6 +29,8 @@ public class SectionDrawerItem implements IDrawerItem, Nameable<SectionDrawerIte
     private int textColor = 0;
     private int textColorRes = -1;
 
+    private int visibility = View.VISIBLE;
+
     private Typeface typeface = null;
 
     public SectionDrawerItem withIdentifier(int identifier) {
@@ -106,6 +108,15 @@ public class SectionDrawerItem implements IDrawerItem, Nameable<SectionDrawerIte
     public void setNameRes(int nameRes) {
         this.nameRes = nameRes;
         this.name = null;
+    }
+
+    @Override
+    public int getVisibility() {
+        return visibility;
+    }
+
+    public void withvisibility(int visibility) {
+        this.visibility = visibility;
     }
 
     @Override

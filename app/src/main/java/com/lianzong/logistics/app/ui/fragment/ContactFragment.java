@@ -8,10 +8,10 @@ import android.widget.TextView;
 
 import com.lianzong.logistics.app.R;
 import com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu;
-import com.lianzong.logistics.app.ui.view.observableviews.fragment.ContentDetailsBaseFragment;
+import com.lianzong.logistics.app.ui.view.observableviews.fragment.BaseContentDetailsFragment;
 
 
-public class ContactFragment extends ContentDetailsBaseFragment {
+public class ContactFragment extends BaseContentDetailsFragment {
 
     private final static ContactFragment fragment = new ContactFragment();
 

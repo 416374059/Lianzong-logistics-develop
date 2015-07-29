@@ -36,7 +36,7 @@ import com.lianzong.logistics.app.ui.view.observableviews.ObservableScrollViewCa
  * Fragment for ViewPagerTabFragmentActivity.
  * ScrollView callbacks are handled by its parent fragment, not its parent activity.
  */
-public class ViewPagerTabFragmentListViewFragment extends BaseFragment {
+public class BaseListViewFragment extends BaseFragment {
 
     public static final int FRAGMENT_TYPE_GOODS = 0;
     public static final int FRAGMENT_TYPE_VEHICLES = 1;

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.lianzong.logistics.app.utils.SystemUtils;
@@ -16,19 +18,27 @@ public class LogisticsApplication extends Application {
     public static boolean sIsSuportAccount = false;
     public static String sVersionType;
     public static boolean sIsVersionDebug;
+    public static int sDebugModuleVisibility;
+
+    public static int sNonOnlineModuleVisibility;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.i("wsl", "LogisticsApplication onCreate");
 
         loadConfigs();
 
         //initialize and create the image loader logic
         DrawerImageLoader.init(new DrawerImageLoader.IDrawerImageLoader() {
             @Override
-            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
-                Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+            public void set(ImageView imageView, Uri uri, int errorImgId, Drawable placeholder) {
+                Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).error(errorImgId).into(imageView);
+            }
 
+            @Override
+            public void set(ImageView imageView, int resourceId, int errorImgId, Drawable placeholder) {
+                Picasso.with(imageView.getContext()).load(resourceId).placeholder(placeholder).error(errorImgId).into(imageView);
             }
 
             @Override
@@ -65,8 +75,10 @@ public class LogisticsApplication extends Application {
     }
 
     private void loadConfigs() {
-        sIsSuportAccount = TextUtils.equals("TRUE", SystemUtils.getMetaValue(this, "cfg_enable_account"));
-        sVersionType = SystemUtils.getMetaValue(this, "cfg_version");
-        sIsVersionDebug = TextUtils.equals("DEBUG", sVersionType);
+        sNonOnlineModuleVisibility = SystemUtils.getBooleanMetaValue(this, "cfg_all_module_type") ? View.VISIBLE : View.GONE;
+        sIsSuportAccount = SystemUtils.getBooleanMetaValue(this, "cfg_enable_account");
+        sVersionType = SystemUtils.getStringMetaValue(this, "cfg_version");
+        sIsVersionDebug = TextUtils.equals("debug", sVersionType);
+        sDebugModuleVisibility = sIsVersionDebug ? View.VISIBLE : View.GONE;
     }
 }

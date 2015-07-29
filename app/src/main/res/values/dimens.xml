@@ -3,6 +3,10 @@
     <dimen name="label_width">70dp</dimen>
 
 
+    <!-- home page -->
+    <dimen name="home_page_cell_textSize">22sp</dimen>
+
+
     <!-- pull to refresh list view-->
     <dimen name="header_height">60dp</dimen>
     <dimen name="footer_height">90dp</dimen>

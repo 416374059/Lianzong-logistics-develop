@@ -13,8 +13,11 @@ import com.mikepenz.materialdrawer.util.UIUtils;
  */
 public class DividerDrawerItem implements IDrawerItem {
 
-    public DividerDrawerItem() {
+    private int visibility = View.VISIBLE;
+    private int dividerHeight = 1;
+    private int dividerColor = -1;
 
+    public DividerDrawerItem() {
     }
 
     @Override
@@ -43,7 +46,31 @@ public class DividerDrawerItem implements IDrawerItem {
     }
 
     @Override
+    public int getVisibility() {
+        return visibility;
+    }
+
+    public DividerDrawerItem withDividerHeight(int dividerHeight) {
+        this.dividerHeight = dividerHeight;
+        return this;
+    }
+
+    public DividerDrawerItem withVisibility(int visibility) {
+        this.visibility = visibility;
+        return this;
+    }
+
+    public DividerDrawerItem withDividerColor(int dividerColor) {
+        this.dividerColor = dividerColor;
+        return this;
+    }
+
+    @Override
     public View convertView(LayoutInflater inflater, View convertView, ViewGroup parent) {
+        if (dividerColor == -1) {
+            dividerColor = UIUtils.getThemeColorFromAttrOrRes(parent.getContext(), R.attr.material_drawer_divider, R.color.material_drawer_divider);
+        }
+
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(getLayoutRes(), parent, false);
@@ -53,12 +80,21 @@ public class DividerDrawerItem implements IDrawerItem {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        viewHolder.view.setMinimumHeight(dividerHeight);
+
+        if (this.getVisibility() != View.VISIBLE) {
+            ViewGroup.LayoutParams params = convertView.getLayoutParams();
+            params.height = 0;
+            convertView.setLayoutParams(params);
+            convertView.setVisibility(this.getVisibility());
+            return convertView;
+        }
+
         viewHolder.view.setClickable(false);
         viewHolder.view.setEnabled(false);
-        viewHolder.view.setMinimumHeight(1);
 
         //set the color for the divider
-        viewHolder.divider.setBackgroundColor(UIUtils.getThemeColorFromAttrOrRes(parent.getContext(), R.attr.material_drawer_divider, R.color.material_drawer_divider));
+        viewHolder.divider.setBackgroundColor(dividerColor);
 
         return convertView;
     }

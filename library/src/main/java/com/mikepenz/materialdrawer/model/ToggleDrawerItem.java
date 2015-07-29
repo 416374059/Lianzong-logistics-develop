@@ -135,6 +135,14 @@ public class ToggleDrawerItem extends BaseDrawerItem<ToggleDrawerItem> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        if (this.getVisibility() != View.VISIBLE) {
+            ViewGroup.LayoutParams params = convertView.getLayoutParams();
+            params.height = 0;
+            convertView.setLayoutParams(params);
+            convertView.setVisibility(this.getVisibility());
+            return convertView;
+        }
+
         //get the correct color for the background
         int selectedColor = UIUtils.decideColor(ctx, getSelectedColor(), getSelectedColorRes(), R.attr.material_drawer_selected, R.color.material_drawer_selected);
         //get the correct color for the text

@@ -21,7 +21,7 @@ import com.nineoldandroids.view.ViewHelper;
 /**
  * xxx详情界面的fragment基类，用于提供标准化的界面，子类去实现content布局的填充，以及相应业务逻辑
  */
-public abstract class ContentDetailsBaseFragment extends BaseFragment implements ObservableScrollViewCallbacks{
+public abstract class BaseContentDetailsFragment extends BaseFragment implements ObservableScrollViewCallbacks{
 
 //    protected static final float MAX_TEXT_SCALE_DELTA = 0.3f;
 

@@ -6,7 +6,10 @@
 
     <!-- activity titles -->
     <string name="activity_title_goods_details">货物详情</string>
-    <string name="activity_title_my_vehicles">我发布的车辆</string>
+    <string name="activity_title_my_vehicles">我的车辆</string>
+    <string name="activity_title_my_goods">我的货物</string>
+    <string name="activity_title_find_vehicles">货物</string>
+    <string name="activity_title_find_goods">车辆</string>
 
 
     <!-- search conditions -->
@@ -15,15 +18,34 @@
     <string name="label_search_goods_type">货源类型</string>
     <string name="label_search">搜索</string>
 
-    <!-- Drawer Items -->
-    <string name="drawer_item_goods">货源</string>
-    <string name="drawer_item_my_vehicles">车辆管理</string>
-    <string name="drawer_item_settings">设置</string>
-    <string name="drawer_item_help">帮助</string>
-    <string name="drawer_item_contact">联系我们</string>
-    <string name="drawer_item_debug_push">推送功能测试</string>
-    <string name="drawer_item_debug_xlistview">XListView功能测试</string>
-    <string name="drawer_item_debug_fab">Floating Action Button功能测试</string>
+    <!-- Primary Drawer Items -->
+    <string name="drawer_primary_logistics">板车托运</string>
+    <string name="drawer_primary_im">我的联纵</string>
+    <string name="drawer_primary_market">机械市场</string>
+    <string name="drawer_primary_jobs">求职招聘</string>
+
+    <!-- Secondary Drawer Items -->
+    <string name="drawer_secondary_weather">天气</string>
+    <string name="drawer_secondary_auto_insurance">车险</string>
+    <string name="drawer_secondary_call_services">一键客服</string>
+
+    <!-- Secondary Drawer Items -->
+    <string name="drawer_secondary_mine">个人中心</string>
+    <string name="drawer_secondary_settings">设   置</string>
+
+    <!--Drawer Items for test-->
+    <string name="drawer_test_debug_push">推送功能测试</string>
+    <string name="drawer_test_debug_xlistview">XListView功能测试</string>
+    <string name="drawer_test_debug_fab">Floating Action Button功能测试</string>
+
+    <!-- setting items -->
+    <string name="setting_item_guide">使用指南</string>
+    <string name="setting_item_feedback">意见反馈</string>
+    <string name="setting_item_about_us">关于我们</string>
+    <string name="setting_item_update">版本更新</string>
+
+
+    <string name="contact_us">联系我们</string>
 
     <!-- Buttons -->
     <string name="btn_publish_vehicle">发布车辆</string>

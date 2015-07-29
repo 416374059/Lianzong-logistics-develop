@@ -13,7 +13,7 @@ import com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu;
 /**
  * Created by wu_shenglong on 2015/7/28.
  */
-public class MyVehicleListActivity extends ToolbarWithListViewBaseActivity {
+public class VehicleListActivity extends ToolbarWithListViewBaseActivity {
     @Override
     protected void setupHeaderLayout(LinearLayout headView) {
         if (null == headView) return;

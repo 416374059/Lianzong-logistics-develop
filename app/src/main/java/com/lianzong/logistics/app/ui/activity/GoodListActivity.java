@@ -1,5 +1,4 @@
-package com.lianzong.logistics.app.ui.fragment;
-
+package com.lianzong.logistics.app.ui.activity;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -7,28 +6,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lianzong.logistics.app.R;
+import com.lianzong.logistics.app.ui.activity.base.ToolbarWithListViewBaseActivity;
+import com.lianzong.logistics.app.ui.view.fab.FloatingActionButton;
 import com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu;
-import com.lianzong.logistics.app.ui.view.observableviews.fragment.BaseContentDetailsFragment;
 
 /**
- * 帮助
+ * Created by wu_shenglong on 2015/7/28.
  */
-public class HelpFragment extends BaseContentDetailsFragment {
-
-    private final static HelpFragment fragment = new HelpFragment();
-
-    public HelpFragment() {
-    }
-
-    public static HelpFragment newInstance() {
-        return fragment;
-    }
-
+public class GoodListActivity extends ToolbarWithListViewBaseActivity {
     @Override
     protected void setupHeaderLayout(LinearLayout headView) {
         if (null == headView) return;
 
-        ImageView helpHeader = new ImageView(mContext);
+        ImageView helpHeader = new ImageView(this);
         helpHeader.setImageResource(R.drawable.example);
         helpHeader.setScaleType(ImageView.ScaleType.FIT_XY);
 
@@ -39,7 +29,7 @@ public class HelpFragment extends BaseContentDetailsFragment {
     protected void setupScrollViewContainer(LinearLayout scrollViewContainer) {
         if (null == scrollViewContainer) return;
 
-        TextView helpContainer = new TextView(mContext);
+        TextView helpContainer = new TextView(this);
         helpContainer.setBackgroundResource(android.R.color.white);
         helpContainer.setPadding(mActivityPaddingLeft, mActivityPaddingTop, mActivityPaddingRight, mActivityPaddingBottom);
         helpContainer.setText(R.string.help);
@@ -51,6 +41,17 @@ public class HelpFragment extends BaseContentDetailsFragment {
     protected void setupFloatingActionButtons(FloatingActionMenu fabMenu) {
         if (null == fabMenu) return;
 
-        fabMenu.setVisibility(View.GONE);
+        fabMenu.setVisibility(View.VISIBLE);
+
+        FloatingActionButton fbEdit = new FloatingActionButton(this);
+        fbEdit.setImageResource(R.drawable.ic_edit);
+        fbEdit.setButtonSize(FloatingActionButton.SIZE_MINI);
+
+        FloatingActionButton fbDelelte = new FloatingActionButton(this);
+        fbDelelte.setImageResource(R.drawable.ic_delete);
+        fbDelelte.setButtonSize(FloatingActionButton.SIZE_MINI);
+
+        fabMenu.addMenuButton(fbEdit);
+        fabMenu.addMenuButton(fbDelelte);
     }
 }

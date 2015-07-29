@@ -29,7 +29,16 @@ import com.nineoldandroids.view.ViewHelper;
  * This fragment manages ViewPager and its child Fragments.
  * Scrolling techniques are basically the same as ViewPagerTab2Activity.
  */
-public class ViewPagerTabFragmentParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
+public class BaseViewPagerParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
+
+    private final static BaseViewPagerParentFragment fragment = new BaseViewPagerParentFragment();
+
+    public BaseViewPagerParentFragment() {
+    }
+
+    public static BaseViewPagerParentFragment newInstance() {
+        return fragment;
+    }
     public static final String FRAGMENT_TAG = "fragment";
 
     private TouchInterceptionFrameLayout mInterceptionLayout;
@@ -250,13 +259,13 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
             Fragment f;
             switch (position) {
                 case 0:
-                    f = new ViewPagerTabFragmentListViewFragment();
+                    f = new BaseListViewFragment();
                     break;
                 case 1:
-                    f = new ViewPagerTabFragmentListViewFragment();
+                    f = new BaseListViewFragment();
                     break;
                 default:
-                    f = new ViewPagerTabFragmentListViewFragment();
+                    f = new BaseListViewFragment();
                     break;
             }
             return f;

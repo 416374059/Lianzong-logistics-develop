@@ -14,6 +14,8 @@ public interface IDrawerItem {
 
     public boolean isEnabled();
 
+    public int getVisibility();
+
     public String getType();
 
     public int getLayoutRes();

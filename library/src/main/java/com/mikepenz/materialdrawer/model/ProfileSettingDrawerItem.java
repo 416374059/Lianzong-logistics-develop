@@ -53,6 +53,8 @@ public class ProfileSettingDrawerItem implements IDrawerItem, IProfile<ProfileSe
     private int iconColor = 0;
     private int iconColorRes = -1;
 
+    private int visibility = View.VISIBLE;
+
     private Typeface typeface = null;
 
     public ProfileSettingDrawerItem withIdentifier(int identifier) {
@@ -220,6 +222,15 @@ public class ProfileSettingDrawerItem implements IDrawerItem, IProfile<ProfileSe
 
     public void setIconColor(int iconColor) {
         this.iconColor = iconColor;
+    }
+
+    @Override
+    public int getVisibility() {
+        return visibility;
+    }
+
+    public void withvisibility(int visibility) {
+        this.visibility = visibility;
     }
 
     @Override

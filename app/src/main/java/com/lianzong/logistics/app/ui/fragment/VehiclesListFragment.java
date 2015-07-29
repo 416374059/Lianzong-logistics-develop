@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class MyVehiclesListFragment extends Fragment implements XListView.IXListViewListener, View.OnClickListener {
+public class VehiclesListFragment extends Fragment implements XListView.IXListViewListener, View.OnClickListener {
 
     private XListView mListView;
     private ArrayAdapter<String> mAdapter;
@@ -28,12 +28,12 @@ public class MyVehiclesListFragment extends Fragment implements XListView.IXList
 
     private Handler mHandler;
 
-    private final static MyVehiclesListFragment fragment = new MyVehiclesListFragment();
+    private final static VehiclesListFragment fragment = new VehiclesListFragment();
 
-    public MyVehiclesListFragment() {
+    public VehiclesListFragment() {
     }
 
-    public static MyVehiclesListFragment newInstance() {
+    public static VehiclesListFragment newInstance() {
         return fragment;
     }
 

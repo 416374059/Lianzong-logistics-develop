@@ -29,7 +29,13 @@ import com.lianzong.logistics.app.R;
 import java.util.ArrayList;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    protected static final String KEY_TITLE = "title";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_TYPE= "type";
+
+    public enum LogisticsFragmentType{
+        TYPE_ALL,
+        TYPE_MINE
+    }
 
     private static final int NUM_OF_ITEMS = 100;
     private static final int NUM_OF_ITEMS_FEW = 3;

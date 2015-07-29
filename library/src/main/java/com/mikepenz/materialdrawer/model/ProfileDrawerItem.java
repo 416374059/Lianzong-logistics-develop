@@ -45,6 +45,8 @@ public class ProfileDrawerItem implements IDrawerItem, IProfile<ProfileDrawerIte
     private int textColor = 0;
     private int textColorRes = -1;
 
+    private int visibility = View.VISIBLE;
+
     private Typeface typeface = null;
 
     private void resetIcons() {
@@ -138,6 +140,15 @@ public class ProfileDrawerItem implements IDrawerItem, IProfile<ProfileDrawerIte
     public ProfileDrawerItem withTypeface(Typeface typeface) {
         this.typeface = typeface;
         return this;
+    }
+
+    @Override
+    public int getVisibility() {
+        return visibility;
+    }
+
+    public void withvisibility(int visibility) {
+        this.visibility = visibility;
     }
 
     public boolean isNameShown() {
@@ -297,6 +308,14 @@ public class ProfileDrawerItem implements IDrawerItem, IProfile<ProfileDrawerIte
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        if (this.getVisibility() != View.VISIBLE) {
+            ViewGroup.LayoutParams params = convertView.getLayoutParams();
+            params.height = 0;
+            convertView.setLayoutParams(params);
+            convertView.setVisibility(this.getVisibility());
+            return convertView;
         }
 
         //get the correct color for the background
