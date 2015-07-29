@@ -6,14 +6,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lianzong.logistics.app.R;
-import com.lianzong.logistics.app.ui.activity.base.ToolbarWithScrollViewBaseActivity;
+import com.lianzong.logistics.app.ui.activity.base.ToolbarWithListViewBaseActivity;
 import com.lianzong.logistics.app.ui.view.fab.FloatingActionButton;
 import com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu;
 
 /**
  * Created by wu_shenglong on 2015/7/28.
  */
-public class GoodsDetailsActivity extends ToolbarWithScrollViewBaseActivity {
+public class MyVehicleListActivity extends ToolbarWithListViewBaseActivity {
     @Override
     protected void setupHeaderLayout(LinearLayout headView) {
         if (null == headView) return;

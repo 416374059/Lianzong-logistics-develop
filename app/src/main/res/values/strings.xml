@@ -6,6 +6,7 @@
 
     <!-- activity titles -->
     <string name="activity_title_goods_details">货物详情</string>
+    <string name="activity_title_my_vehicles">我发布的车辆</string>
 
 
     <!-- search conditions -->

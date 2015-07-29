@@ -199,8 +199,8 @@ public class MainActivity extends BaseActivity {
 //                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
 
                                         Intent intent = new Intent();
-                                        intent.setClass(MainActivity.this, GoodsDetailsActivity.class);
-                                        intent.putExtra(BaseActivity.KEY_TITLE, getResources().getText(R.string.activity_title_goods_details));
+                                        intent.setClass(MainActivity.this, MyVehicleListActivity.class);
+                                        intent.putExtra(BaseActivity.KEY_TITLE, getResources().getText(R.string.activity_title_my_vehicles));
                                         MainActivity.this.startActivityForResult(intent, IDENTIFIER_CONTACT);
                                         break;
                                     case IDENTIFIER_DEBUG_PUSH:

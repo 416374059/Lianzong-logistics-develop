@@ -47,6 +47,12 @@
             android:theme="@style/AppTheme.Toolbar">
         </activity>
 
+        <activity
+            android:name=".ui.activity.MyVehicleListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar">
+        </activity>
+
         <!-- 功能测试 -->
         <activity
             android:name=".ui.view.pulltorefresh.XListViewActivity"
