@@ -23,7 +23,7 @@
         <LinearLayout
             android:id="@+id/flexible_space_container"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/flexible_space_image_height"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
         </LinearLayout>
@@ -31,12 +31,12 @@
         <View
             android:id="@+id/overlay"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/flexible_space_image_height"
+            android:layout_height="wrap_content"
             android:alpha="0"
             android:background="?attr/colorPrimary" />
 
         <com.lianzong.logistics.app.ui.view.observableviews.ObservableScrollView
-            android:id="@+id/scroll"
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
@@ -48,8 +48,9 @@
                 android:orientation="vertical">
 
                 <View
+                    android:id="@+id/scroll_view_margin_top_view"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/flexible_space_image_height"
+                    android:layout_height="wrap_content"
                     android:background="@android:color/transparent" />
 
                 <LinearLayout
@@ -68,12 +69,13 @@
             android:orientation="vertical">
 
             <View
+                android:id="@+id/fab_margin_top_view"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/flexible_space_image_fab_margin_top"
+                android:layout_height="wrap_content"
                 android:background="@android:color/transparent" />
 
             <com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu
-                android:id="@+id/fb_menus_down"
+                android:id="@+id/fb_menus_center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -90,6 +92,24 @@
                 <!--在code中动态添加 fab buttons-->
             </com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu>
         </LinearLayout>
+
+        <com.lianzong.logistics.app.ui.view.fab.FloatingActionButton
+            android:id="@+id/fb_btn_up_to_top"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_standard"
+            android:layout_marginBottom="?actionBarSize"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:layout_gravity="bottom|right"
+            android:src="@drawable/ic_menu"
+            fab:fab_colorNormal="@color/primary"
+            fab:menu_fab_size="mini"
+            fab:menu_labels_ellipsize="end"
+            fab:menu_labels_singleLine="true" />
     </FrameLayout>
 </RelativeLayout>
 

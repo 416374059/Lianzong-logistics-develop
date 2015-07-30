@@ -148,10 +148,11 @@ public class MainActivity extends BaseActivity {
                         new DividerDrawerItem(),
 //                        new DividerDrawerItem().withDividerHeight(50).withDividerColor(MainActivity.this.getResources().getColor(R.color.transparent)),
 //                        new SecondaryDrawerItem().withName(R.string.drawer_secondary_auto_insurance).withIcon(FontAwesome.Icon.faw_inbox).withIdentifier(IDENTIFIER_SECONDARY_AUTO_INSURAMCE),
-                        new SecondaryDrawerItem().withName(R.string.drawer_secondary_weather).withIcon(FontAwesome.Icon.faw_wechat).withIdentifier(IDENTIFIER_SECONDARY_WEATHER),
+//                        new SecondaryDrawerItem().withName(R.string.drawer_secondary_weather).withIcon(FontAwesome.Icon.faw_wechat).withIdentifier(IDENTIFIER_SECONDARY_WEATHER),
                         new SecondaryDrawerItem().withName(R.string.drawer_secondary_call_services).withIcon(FontAwesome.Icon.faw_yelp).withIdentifier(IDENTIFIER_SECONDARY_CALL_SERVICES),
-                        new DividerDrawerItem(),
+//                        new DividerDrawerItem(),
                         new SecondaryDrawerItem().withName(R.string.drawer_secondary_mine).withIcon(FontAwesome.Icon.faw_user).withIdentifier(IDENTIFIER_SECONDARY_MIME),
+                        new DividerDrawerItem(),
                         new SecondaryDrawerItem().withName(R.string.drawer_secondary_settings).withIcon(FontAwesome.Icon.faw_cogs).withIdentifier(IDENTIFIER_SECONDARY_SETTING)
 //                        new DividerDrawerItem().withVisibility(LogisticsApplication.sDebugModuleVisibility),
 //                        new SecondaryDrawerItem().withName(R.string.drawer_test_debug_push).withIcon(FontAwesome.Icon.faw_apple).withIdentifier(IDENTIFIER_DEBUG_PUSH).withVisibility(LogisticsApplication.sDebugModuleVisibility),
@@ -189,7 +190,7 @@ public class MainActivity extends BaseActivity {
                                     // primary items
                                     case IDENTIFIER_PRIMARY_LOGISTICS:
                                         getSupportActionBar().setTitle(((Nameable) drawerItem).getNameRes());
-                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, LogisticsFragment.newInstance()).commitAllowingStateLoss();
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, LogisticsFragment.newInstance(), LogisticsFragment.FRAGMENT_TAG).commitAllowingStateLoss();
                                         mLastFragmentId = IDENTIFIER_PRIMARY_LOGISTICS;
                                         break;
                                     case IDENTIFIER_PRIMARY_IM:

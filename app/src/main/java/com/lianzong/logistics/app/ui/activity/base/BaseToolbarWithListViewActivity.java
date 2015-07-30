@@ -4,33 +4,46 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.lianzong.logistics.app.R;
 import com.lianzong.logistics.app.ui.activity.BaseActivity;
+import com.lianzong.logistics.app.ui.view.fab.FloatingActionButton;
 import com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu;
-import com.lianzong.logistics.app.ui.view.observableviews.ObservableScrollView;
+import com.lianzong.logistics.app.ui.view.observableviews.ObservableListView;
 import com.lianzong.logistics.app.ui.view.observableviews.ObservableScrollViewCallbacks;
 import com.lianzong.logistics.app.ui.view.observableviews.ScrollState;
 import com.lianzong.logistics.app.ui.view.observableviews.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 
-public abstract class ToolbarWithScrollViewBaseActivity extends BaseActivity implements ObservableScrollViewCallbacks {
+public abstract class BaseToolbarWithListViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
-    private ObservableScrollView mScrollView;
+    private ObservableListView mListView;
     private View mOverlayView;
     private FloatingActionMenu mFab;
+    private FloatingActionButton mFabUpToTop;
     private LinearLayout mLlHeaderView;
     private LinearLayout mLlScrollViewContainer;
 
+    private View mFabMarginTopView;
+
     private boolean mFabIsShown;
+
+    private View.OnClickListener mOnFabUpToTopClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mListView.smoothScrollToPosition(0);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tool_bar_with_scroll_view);
+        setContentView(R.layout.activity_tool_bar_with_list_view);
 
         getDimensionPixelSize();
         initToolBar();
@@ -41,8 +54,8 @@ public abstract class ToolbarWithScrollViewBaseActivity extends BaseActivity imp
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(getIntent().getStringExtra(KEY_TITLE));
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle(getIntent().getStringExtra(KEY_TITLE));
         }
     }
 
@@ -55,23 +68,64 @@ public abstract class ToolbarWithScrollViewBaseActivity extends BaseActivity imp
         mOverlayView = findViewById(R.id.overlay);
 
         // scroll view
-        mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
-        mScrollView.setScrollViewCallbacks(this);
+        mListView = (ObservableListView) findViewById(R.id.list);
+        mListView.setScrollViewCallbacks(this);
+        // setup data for list view
+        setDummyDataWithHeader(mListView, mFlexibleSpaceHeight);
 
         // scroll container view
         mLlScrollViewContainer = (LinearLayout) findViewById(R.id.ll_scroll_view_container);
         setupScrollViewContainer(mLlScrollViewContainer);
 
         // floating action menu
-        mFab = (FloatingActionMenu) findViewById(R.id.fb_menus_down);
-        setupFloatingActionButtons(mFab);
+        mFab = (FloatingActionMenu) findViewById(R.id.fb_menus_center);
         mFab.hideMenuButton(false);
+        setupFloatingActionButtons(mFab);
         mFab.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mFab.showMenuButton(true);
             }
         }, 400);
+
+        // floating action menu margin top view
+        mFabMarginTopView = findViewById(R.id.fab_margin_top_view);
+        ViewGroup.LayoutParams params = mFabMarginTopView.getLayoutParams();
+        params.height = mFloatingActionMenuTopMargin;
+        mFabMarginTopView.setLayoutParams(params);
+
+        // floating action button up to top
+        mFabUpToTop = (FloatingActionButton) findViewById(R.id.fb_btn_up_to_top);
+        mFabUpToTop.setOnClickListener(mOnFabUpToTopClickListener);
+    }
+
+    protected void setHeaderViewShown(boolean visible, int height) {
+        if (visible) {
+            mFlexibleSpaceHeight = height;
+
+            LinearLayout.LayoutParams paramsHeaderView = (LinearLayout.LayoutParams) mLlHeaderView.getLayoutParams();
+            paramsHeaderView.height = height;
+            mLlHeaderView.setLayoutParams(paramsHeaderView);
+
+            LinearLayout.LayoutParams paramsOverlayView =(LinearLayout.LayoutParams) mOverlayView.getLayoutParams();
+            paramsOverlayView.height = height;
+            mOverlayView.setLayoutParams(paramsOverlayView);
+        }
+
+        mLlHeaderView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        mOverlayView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        mFab.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -88,16 +142,15 @@ public abstract class ToolbarWithScrollViewBaseActivity extends BaseActivity imp
     }
 
     private void updateFlexibleSpace(final int scrollY) {
-        if (null == mScrollView) {
+        if (null == mListView) {
             return;
         }
 
-        mScrollView.scrollVerticallyTo(scrollY);
         doScrollChanged(scrollY);
     }
 
     private void doScrollChanged(int scrollY) {
-        if (null == mScrollView) {
+        if (null == mListView) {
             return;
         }
 
@@ -107,14 +160,13 @@ public abstract class ToolbarWithScrollViewBaseActivity extends BaseActivity imp
 
     private void translateViews(int scrollY) {
         // Translate overlay
-        int minOverlayTransitionY = mActionBarSize - mOverlayView.getHeight();
+        int minOverlayTransitionY = - mOverlayView.getHeight();
         ViewHelper.setTranslationY(mOverlayView, ScrollUtils.getFloat(-scrollY, minOverlayTransitionY, 0));
         // Change alpha of overlay
         ViewHelper.setAlpha(mOverlayView, ScrollUtils.getFloat((float) scrollY / mFlexibleRange, 0, 1));
 
         // flexible space container
-        ViewHelper.setTranslationY(mLlHeaderView, ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
-
+        ViewHelper.setTranslationY(mLlHeaderView, ScrollUtils.getFloat(-scrollY, minOverlayTransitionY, 0));
 
         // Translate FAB
         float fabTranslationY = -scrollY;
@@ -140,6 +192,7 @@ public abstract class ToolbarWithScrollViewBaseActivity extends BaseActivity imp
         if (!mFabIsShown) {
             mFab.showMenuButton(true);
             mFabIsShown = true;
+            hideFabUpToTop();
         }
     }
 
@@ -147,6 +200,19 @@ public abstract class ToolbarWithScrollViewBaseActivity extends BaseActivity imp
         if (mFabIsShown) {
             mFab.hideMenuButton(true);
             mFabIsShown = false;
+            showFabUpToTop();
+        }
+    }
+
+    private void hideFabUpToTop() {
+        if (null != mFabUpToTop) {
+            mFabUpToTop.setVisibility(View.GONE);
+        }
+    }
+
+    private void showFabUpToTop() {
+        if (null != mFabUpToTop) {
+            mFabUpToTop.setVisibility(View.VISIBLE);
         }
     }
 
@@ -161,5 +227,5 @@ public abstract class ToolbarWithScrollViewBaseActivity extends BaseActivity imp
     /**
      * 配置fab button
      */
-    protected abstract void setupFloatingActionButtons(FloatingActionMenu fabMenu);
+    protected abstract void setupFloatingActionButtons(FloatingActionMenu fbContainer);
 }

@@ -17,6 +17,15 @@ import com.lianzong.logistics.app.ui.view.observableviews.fragment.BaseContentDe
 
 public class LogisticsFragment extends BaseContentDetailsFragment {
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        setHeaderViewShown(false, 300);
+    }
+
+    public static final String FRAGMENT_TAG = LogisticsFragment.class.getSimpleName();
+
     private final static LogisticsFragment fragment = new LogisticsFragment();
 
     public LogisticsFragment() {
@@ -51,28 +60,28 @@ public class LogisticsFragment extends BaseContentDetailsFragment {
                         Intent intentFindGoods = new Intent();
                         intentFindGoods.setClass(mContext, GoodListActivity.class);
                         intentFindGoods.putExtra(BaseActivity.KEY_TITLE, getResources().getText(R.string.activity_title_find_goods));
-                        intentFindGoods.putExtra(BaseActivity.KEY_TYPE, BaseActivity.LogisticsFragmentType.TYPE_ALL);
+                        intentFindGoods.putExtra(BaseActivity.KEY_VIEW_PAGER_TAB_TYPE, BaseActivity.LogisticsFragmentType.TYPE_ALL);
                         mContext.startActivity(intentFindGoods);
                         break;
                     case R.id.lr_find_vehicles:
                         Intent intentFindVehicles = new Intent();
                         intentFindVehicles.setClass(mContext, VehicleListActivity.class);
                         intentFindVehicles.putExtra(BaseActivity.KEY_TITLE, getResources().getText(R.string.activity_title_find_vehicles));
-                        intentFindVehicles.putExtra(BaseActivity.KEY_TYPE, BaseActivity.LogisticsFragmentType.TYPE_ALL);
+                        intentFindVehicles.putExtra(BaseActivity.KEY_VIEW_PAGER_TAB_TYPE, BaseActivity.LogisticsFragmentType.TYPE_ALL);
                         mContext.startActivity(intentFindVehicles);
                         break;
                     case R.id.lr_my_goods:
                         Intent intentMyGoods = new Intent();
                         intentMyGoods.setClass(mContext, GoodListActivity.class);
                         intentMyGoods.putExtra(BaseActivity.KEY_TITLE, getResources().getText(R.string.activity_title_find_goods));
-                        intentMyGoods.putExtra(BaseActivity.KEY_TYPE, BaseActivity.LogisticsFragmentType.TYPE_MINE);
+                        intentMyGoods.putExtra(BaseActivity.KEY_VIEW_PAGER_TAB_TYPE, BaseActivity.LogisticsFragmentType.TYPE_MINE);
                         mContext.startActivity(intentMyGoods);
                         break;
                     case R.id.lr_my_vehicles:
                         Intent intentMyVehicles = new Intent();
                         intentMyVehicles.setClass(mContext, VehicleListActivity.class);
                         intentMyVehicles.putExtra(BaseActivity.KEY_TITLE, getResources().getText(R.string.activity_title_find_vehicles));
-                        intentMyVehicles.putExtra(BaseActivity.KEY_TYPE, BaseActivity.LogisticsFragmentType.TYPE_MINE);
+                        intentMyVehicles.putExtra(BaseActivity.KEY_VIEW_PAGER_TAB_TYPE, BaseActivity.LogisticsFragmentType.TYPE_MINE);
                         mContext.startActivity(intentMyVehicles);
                         break;
                     default:

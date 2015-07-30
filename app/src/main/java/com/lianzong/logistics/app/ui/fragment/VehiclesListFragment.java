@@ -20,6 +20,8 @@ import java.util.Locale;
 
 public class VehiclesListFragment extends Fragment implements XListView.IXListViewListener, View.OnClickListener {
 
+    public static final String FRAGMENT_TAG = VehiclesListFragment.class.getSimpleName();
+
     private XListView mListView;
     private ArrayAdapter<String> mAdapter;
     private ArrayList<String> items = new ArrayList<String>();

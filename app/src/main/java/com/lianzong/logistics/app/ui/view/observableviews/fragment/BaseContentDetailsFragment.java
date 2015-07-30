@@ -23,13 +23,14 @@ import com.nineoldandroids.view.ViewHelper;
  */
 public abstract class BaseContentDetailsFragment extends BaseFragment implements ObservableScrollViewCallbacks{
 
-//    protected static final float MAX_TEXT_SCALE_DELTA = 0.3f;
-
     private ObservableScrollView mScrollView;
     private View mOverlayView;
     private FloatingActionMenu mFab;
     private LinearLayout mLlHeaderView;
     private LinearLayout mLlScrollViewContainer;
+
+    private View mFabMarginTopView;
+    private View mScrollViewMarginTopView;
 
     private boolean mFabIsShown;
 
@@ -80,15 +81,18 @@ public abstract class BaseContentDetailsFragment extends BaseFragment implements
         mOverlayView = view.findViewById(R.id.overlay);
 
         // scroll view
-        mScrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
+        mScrollView = (ObservableScrollView) view.findViewById(R.id.list);
         mScrollView.setScrollViewCallbacks(this);
+
+        // scroll view margin top viw
+        mScrollViewMarginTopView = view.findViewById(R.id.scroll_view_margin_top_view);
 
         // scroll container view
         mLlScrollViewContainer = (LinearLayout) view.findViewById(R.id.ll_scroll_view_container);
         setupScrollViewContainer(mLlScrollViewContainer);
 
         // floating action menu
-        mFab = (FloatingActionMenu) view.findViewById(R.id.fb_menus_down);
+        mFab = (FloatingActionMenu) view.findViewById(R.id.fb_menus_center);
         setupFloatingActionButtons(mFab);
         mFab.hideMenuButton(false);
         mFab.postDelayed(new Runnable() {
@@ -97,6 +101,35 @@ public abstract class BaseContentDetailsFragment extends BaseFragment implements
                 mFab.showMenuButton(true);
             }
         }, 400);
+
+        // floating action menu margin top view
+        mFabMarginTopView = view.findViewById(R.id.fab_margin_top_view);
+        ViewGroup.LayoutParams params = mFabMarginTopView.getLayoutParams();
+        params.height = mFloatingActionMenuTopMargin;
+        mFabMarginTopView.setLayoutParams(params);
+    }
+
+    protected void setHeaderViewShown(boolean visible, int height) {
+        if (visible) {
+            mFlexibleSpaceHeight = height;
+
+            LinearLayout.LayoutParams paramsHeaderView = (LinearLayout.LayoutParams) mLlHeaderView.getLayoutParams();
+            paramsHeaderView.height = height;
+            mLlHeaderView.setLayoutParams(paramsHeaderView);
+
+            LinearLayout.LayoutParams paramsOverlayView =(LinearLayout.LayoutParams) mOverlayView.getLayoutParams();
+            paramsOverlayView.height = height;
+            mOverlayView.setLayoutParams(paramsOverlayView);
+
+            LinearLayout.LayoutParams paramsScrollViewMarginTopView =(LinearLayout.LayoutParams) mScrollViewMarginTopView.getLayoutParams();
+            paramsScrollViewMarginTopView.height = height;
+            mScrollViewMarginTopView.setLayoutParams(paramsScrollViewMarginTopView);
+        }
+
+        mLlHeaderView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        mOverlayView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        mScrollViewMarginTopView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        mFab.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override

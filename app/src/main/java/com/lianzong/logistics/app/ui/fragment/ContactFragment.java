@@ -13,6 +13,13 @@ import com.lianzong.logistics.app.ui.view.observableviews.fragment.BaseContentDe
 
 public class ContactFragment extends BaseContentDetailsFragment {
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        setHeaderViewShown(false, 300);
+    }
+
     private final static ContactFragment fragment = new ContactFragment();
 
     public ContactFragment() {

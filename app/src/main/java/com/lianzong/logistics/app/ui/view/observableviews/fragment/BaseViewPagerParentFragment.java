@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,11 +26,15 @@ import com.lianzong.logistics.app.ui.view.observableviews.TouchInterceptionFrame
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
+import java.lang.reflect.Field;
+
 /**
  * This fragment manages ViewPager and its child Fragments.
  * Scrolling techniques are basically the same as ViewPagerTab2Activity.
  */
 public class BaseViewPagerParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
+
+    public static final String FRAGMENT_TAG = BaseViewPagerParentFragment.class.getSimpleName();
 
     private final static BaseViewPagerParentFragment fragment = new BaseViewPagerParentFragment();
 
@@ -39,7 +44,6 @@ public class BaseViewPagerParentFragment extends BaseFragment implements Observa
     public static BaseViewPagerParentFragment newInstance() {
         return fragment;
     }
-    public static final String FRAGMENT_TAG = "fragment";
 
     private TouchInterceptionFrameLayout mInterceptionLayout;
     private ViewPager mPager;
@@ -62,6 +66,7 @@ public class BaseViewPagerParentFragment extends BaseFragment implements Observa
 
     private void initView() {
         AppCompatActivity parentActivity = (AppCompatActivity) getActivity();
+        Log.i("wsl", "getChildFragmentManager : " +getChildFragmentManager());
         mPagerAdapter = new NavigationAdapter(getChildFragmentManager());
         mPager = (ViewPager) getView().findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
@@ -168,7 +173,7 @@ public class BaseViewPagerParentFragment extends BaseFragment implements Observa
         if (view == null) {
             return null;
         }
-        return (Scrollable) view.findViewById(R.id.scroll);
+        return (Scrollable) view.findViewById(R.id.list);
     }
 
     private void adjustToolbar(ScrollState scrollState) {
@@ -279,6 +284,23 @@ public class BaseViewPagerParentFragment extends BaseFragment implements Observa
         @Override
         public CharSequence getPageTitle(int position) {
             return TITLES[position];
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class
+                    .getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 }

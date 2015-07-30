@@ -1,5 +1,6 @@
 package com.lianzong.logistics.app.ui.activity;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,19 +14,29 @@ import com.lianzong.logistics.app.ui.view.fab.FloatingActionMenu;
 /**
  * Created by wu_shenglong on 2015/7/28.
  */
-public class GoodsDetailsActivity extends BaseToolbarWithScrollViewActivity {
+public class AddEditVehicleActivity extends BaseToolbarWithScrollViewActivity {
+
+    public final static String EXTRA_VEHICLE_PAGE_STATE = "state";
+
+    public final static int TYPE_NONE = -1;
+    public final static int TYPE_NEW = 0;
+    public final static int TYPE_EDIT = 1;
+    public final static int TYPE_LOOKUP = 2;
+
+    private int mPageState;
 
     @Override
     protected void onStart() {
         super.onStart();
 
-//        Intent fromIntent = getIntent();
-//        if (null != fromIntent) {
-//            mPageState = fromIntent.getIntExtra(EXTRA_VEHICLE_PAGE_STATE, TYPE_NONE);
-//        }
+        Intent fromIntent = getIntent();
+        if (null != fromIntent) {
+            mPageState = fromIntent.getIntExtra(EXTRA_VEHICLE_PAGE_STATE, TYPE_NONE);
+        }
 
         setHeaderViewShown(false, 300);
     }
+
     @Override
     protected void setupHeaderLayout(LinearLayout headView) {
         if (null == headView) return;
@@ -59,11 +70,11 @@ public class GoodsDetailsActivity extends BaseToolbarWithScrollViewActivity {
         fbEdit.setImageResource(R.drawable.ic_edit);
         fbEdit.setButtonSize(FloatingActionButton.SIZE_MINI);
 
-        FloatingActionButton fbDelelte = new FloatingActionButton(this);
-        fbDelelte.setImageResource(R.drawable.ic_delete);
-        fbDelelte.setButtonSize(FloatingActionButton.SIZE_MINI);
+        FloatingActionButton fbDelete = new FloatingActionButton(this);
+        fbDelete.setImageResource(R.drawable.ic_delete);
+        fbDelete.setButtonSize(FloatingActionButton.SIZE_MINI);
 
         fabMenu.addMenuButton(fbEdit);
-        fabMenu.addMenuButton(fbDelelte);
+        fabMenu.addMenuButton(fbDelete);
     }
 }

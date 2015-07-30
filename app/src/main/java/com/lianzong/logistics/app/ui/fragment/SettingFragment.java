@@ -16,6 +16,15 @@ import com.lianzong.logistics.app.ui.view.observableviews.fragment.BaseContentDe
  */
 public class SettingFragment extends BaseContentDetailsFragment {
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        setHeaderViewShown(false, 300);
+    }
+
+    public static final String FRAGMENT_TAG = SettingFragment.class.getSimpleName();
+
     private final static SettingFragment fragment = new SettingFragment();
 
     public SettingFragment() {

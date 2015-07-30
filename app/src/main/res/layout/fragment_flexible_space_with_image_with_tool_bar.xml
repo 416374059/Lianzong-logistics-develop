@@ -20,7 +20,7 @@
         android:layout_height="wrap_content">
 
         <com.lianzong.logistics.app.ui.view.observableviews.ObservableScrollView
-            android:id="@+id/scroll"
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
@@ -34,7 +34,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/flexible_space_image_height"
+                    android:layout_height="240dp"
                     android:background="@android:color/transparent" />
 
                 <TextView
@@ -64,7 +64,7 @@
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/flexible_space_image_height"
+                android:layout_height="240dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/example" />
 
@@ -72,7 +72,7 @@
             <View
                 android:id="@+id/overlay"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/flexible_space_image_height"
+                android:layout_height="240dp"
                 android:background="?attr/colorPrimary" />
         </LinearLayout>
 

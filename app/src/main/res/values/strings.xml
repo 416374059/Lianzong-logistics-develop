@@ -10,6 +10,8 @@
     <string name="activity_title_my_goods">我的货物</string>
     <string name="activity_title_find_vehicles">货物</string>
     <string name="activity_title_find_goods">车辆</string>
+    <string name="activity_title_update_my_vehicles">更新我的车辆</string>
+    <string name="activity_title_new_a_vehicle">发布车源</string>
 
 
     <!-- search conditions -->
@@ -31,7 +33,7 @@
 
     <!-- Secondary Drawer Items -->
     <string name="drawer_secondary_mine">个人中心</string>
-    <string name="drawer_secondary_settings">设   置</string>
+    <string name="drawer_secondary_settings">设置</string>
 
     <!--Drawer Items for test-->
     <string name="drawer_test_debug_push">推送功能测试</string>

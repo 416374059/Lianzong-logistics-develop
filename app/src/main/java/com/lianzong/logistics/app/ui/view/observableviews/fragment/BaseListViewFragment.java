@@ -91,7 +91,7 @@ public class BaseListViewFragment extends BaseFragment {
     }
 
     private void initView() {
-        final ObservableListView listView = (ObservableListView) getView().findViewById(R.id.scroll);
+        final ObservableListView listView = (ObservableListView) getView().findViewById(R.id.list);
         setDummyData(listView);
 
         Fragment parentFragment = getParentFragment();

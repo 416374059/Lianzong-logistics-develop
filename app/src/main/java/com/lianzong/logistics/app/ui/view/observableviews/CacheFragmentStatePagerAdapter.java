@@ -21,6 +21,7 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
@@ -49,6 +50,7 @@ public abstract class CacheFragmentStatePagerAdapter extends FragmentStatePagerA
 
     @Override
     public Parcelable saveState() {
+        Log.i("wsl", "saveState " + mPages.size());
         Parcelable p = super.saveState();
         Bundle bundle = new Bundle();
         bundle.putParcelable(STATE_SUPER_STATE, p);
@@ -67,18 +69,21 @@ public abstract class CacheFragmentStatePagerAdapter extends FragmentStatePagerA
 
     @Override
     public void restoreState(Parcelable state, ClassLoader loader) {
-        Bundle bundle = (Bundle) state;
-        int pages = bundle.getInt(STATE_PAGES);
-        if (0 < pages) {
-            for (int i = 0; i < pages; i++) {
-                int position = bundle.getInt(createCacheIndex(i));
-                Fragment f = mFm.getFragment(bundle, createCacheKey(position));
-                mPages.put(position, f);
-            }
-        }
-
-        Parcelable p = bundle.getParcelable(STATE_SUPER_STATE);
-        super.restoreState(p, loader);
+//        Bundle bundle = (Bundle) state;
+//        int pages = bundle.getInt(STATE_PAGES);
+//        if (0 < pages) {
+//            for (int i = 0; i < pages; i++) {
+//                int position = bundle.getInt(createCacheIndex(i));
+//                Log.i("wsl", "fragment: " + createCacheKey(position) + ", in Fragments " + mFm.getFragments());
+//                if (null != mFm.getFragments()) {
+//                    Fragment f = mFm.getFragment(bundle, createCacheKey(position));
+//                    mPages.put(position, f);
+//                }
+//            }
+//        }
+//
+//        Parcelable p = bundle.getParcelable(STATE_SUPER_STATE);
+        super.restoreState(state, loader);
     }
 
     /**

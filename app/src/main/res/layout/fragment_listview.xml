@@ -5,7 +5,7 @@
     android:background="@color/colorTextIcon">
 
     <com.lianzong.logistics.app.ui.view.observableviews.ObservableListView
-        android:id="@+id/scroll"
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

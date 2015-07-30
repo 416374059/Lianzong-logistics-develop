@@ -15,6 +15,15 @@ import com.lianzong.logistics.app.ui.view.observableviews.fragment.BaseContentDe
  */
 public class HelpFragment extends BaseContentDetailsFragment {
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        setHeaderViewShown(false, 300);
+    }
+
+    public static final String FRAGMENT_TAG = HelpFragment.class.getSimpleName();
+
     private final static HelpFragment fragment = new HelpFragment();
 
     public HelpFragment() {

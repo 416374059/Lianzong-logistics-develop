@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public abstract class BaseActivity extends AppCompatActivity {
     public static final String KEY_TITLE = "title";
-    public static final String KEY_TYPE= "type";
+    public static final String KEY_VIEW_PAGER_TAB_TYPE = "type";
 
     public enum LogisticsFragmentType{
         TYPE_ALL,
@@ -51,12 +51,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void getDimensionPixelSize() {
         mActionBarSize = getActionBarSize();
-        mFlexibleSpaceHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
+//        mFlexibleSpaceHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         mTabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
         mFlexibleRange = mFlexibleSpaceHeight - mActionBarSize;
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
-        mFlexibleSpaceShowFabOffset = getResources().getDimensionPixelSize(R.dimen.flexible_space_show_fab_offset);
-        mFloatingActionMenuTopMargin = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_fab_margin_top);
+        mFlexibleSpaceShowFabOffset = mFlexibleSpaceHeight / 2;
+        mFloatingActionMenuTopMargin = mFlexibleSpaceHeight - 40;
 
         mActivityPaddingLeft = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
         mActivityPaddingTop = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);

@@ -21,6 +21,8 @@ import com.nineoldandroids.view.ViewHelper;
 // 需要修改， need fix up
 public class FlexibleSpaceWithImageWithToolBarFragment extends BaseFragment implements ObservableScrollViewCallbacks{
 
+    public static final String FRAGMENT_TAG = FlexibleSpaceWithImageWithToolBarFragment.class.getSimpleName();
+
     private final static FlexibleSpaceWithImageWithToolBarFragment fragment = new FlexibleSpaceWithImageWithToolBarFragment();
 
     public FlexibleSpaceWithImageWithToolBarFragment() {
@@ -56,15 +58,15 @@ public class FlexibleSpaceWithImageWithToolBarFragment extends BaseFragment impl
 
     private void updateFlexibleSpace(int scrollY, View view) {
 
-        Scrollable s = getView() == null ? null : (Scrollable)view.findViewById(R.id.scroll);
+        Scrollable s = getView() == null ? null : (Scrollable)view.findViewById(R.id.list);
         s.scrollVerticallyTo(scrollY);
 
-        ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
+        ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.list);
         onScrollChanged(scrollY, scrollView);
     }
 
     private void onScrollChanged(int scrollY, Scrollable s) {
-        Scrollable scrollable = (Scrollable) getView().findViewById(R.id.scroll);
+        Scrollable scrollable = (Scrollable) getView().findViewById(R.id.list);
         if (scrollable == null) {
             return;
         }
