@@ -27,7 +27,7 @@ public class VehicleListActivity extends BaseToolbarWithListViewActivity {
 //            mPageState = fromIntent.getIntExtra(EXTRA_VEHICLE_PAGE_STATE, TYPE_NONE);
 //        }
 
-        setHeaderViewShown(false, 300);
+        setHeaderViewShown(true, 300);
     }
 
     @Override
